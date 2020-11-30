@@ -1,15 +1,16 @@
-import DefaultLayout from "layouts/DefaultLayout";
+import FullscreenPageLayout from "layouts/FullscreenPageLayout";
 import React from "react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import HorizontalPanelLayout from "../../layouts/HorizontalPanelLayout";
 
-interface Props {
-
-}
-
-const TileEditor = (props: Props) => {
+const TileEditor = () => {
     return (
-        <DefaultLayout>
-            <h1>Ahoj</h1>
-        </DefaultLayout>
+        <FullscreenPageLayout header={<Navbar />} footer={<Footer />}>
+            <HorizontalPanelLayout>
+                <h1>Ahoj</h1>
+            </HorizontalPanelLayout>
+        </FullscreenPageLayout>
     );
 }
 

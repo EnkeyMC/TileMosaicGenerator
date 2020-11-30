@@ -1,0 +1,33 @@
+.fullscreen-layout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    &__header {
+
+    }
+
+    &__content {
+        flex-grow: 1;
+    }
+
+    &__footer {
+
+    }
+}
+
+.horizontal-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 100%;
+
+    &__side {
+
+    }
+
+    &__content {
+        flex-grow: 1;
+    }
+}
