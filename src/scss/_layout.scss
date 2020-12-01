@@ -17,11 +17,19 @@
     }
 }
 
-.horizontal-panel {
+.panel-layout {
     display: flex;
-    flex-direction: row;
     align-items: stretch;
-    height: 100%;
+
+    &--vertical {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    &--horizontal {
+        flex-direction: row;
+        height: 100%;
+    }
 
     &__side {
 

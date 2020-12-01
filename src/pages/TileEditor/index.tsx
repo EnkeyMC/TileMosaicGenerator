@@ -2,14 +2,20 @@ import FullscreenPageLayout from "layouts/FullscreenPageLayout";
 import React from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import HorizontalPanelLayout from "../../layouts/HorizontalPanelLayout";
+import PanelLayout from "../../layouts/PanelLayout";
 
 const TileEditor = () => {
     return (
         <FullscreenPageLayout header={<Navbar />} footer={<Footer />}>
-            <HorizontalPanelLayout>
+            <PanelLayout horizontal
+                left={
+                    <PanelLayout>
+
+                    </PanelLayout>
+                }
+            >
                 <h1>Ahoj</h1>
-            </HorizontalPanelLayout>
+            </PanelLayout>
         </FullscreenPageLayout>
     );
 }
