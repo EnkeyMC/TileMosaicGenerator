@@ -1,0 +1,1 @@
+export const EDITOR_ADD_SHAPE = 'EDITOR_ADD_SHAPE';

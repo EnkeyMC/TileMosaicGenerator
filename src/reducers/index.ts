@@ -1,7 +1,8 @@
-import {createStore} from "redux";
+import {combineReducers, createStore} from "redux";
+import {editor} from "./editor";
 
-const store = createStore((state: any = {}, action) => {
-    return state;
-});
+const store = createStore(combineReducers({
+    editor
+}));
 
 export default store;

@@ -1,4 +1,5 @@
 import React from "react";
+import bem from "bem-ts";
 
 interface Props {
     horizontal?: boolean;
@@ -7,16 +8,19 @@ interface Props {
     right?: React.ReactNodeArray | React.ReactNode;
 }
 
+const blk = bem('panel-layout');
+
 const PanelLayout = (props: Props) => {
+    const horizontal = props.horizontal;
     return (
-        <div className={"panel-layout panel-layout--" + (props.horizontal ? 'horizontal' : 'vertical')}>
-            <div className="panel-layout__side">
+        <div className={blk({horizontal, vertical: !horizontal})}>
+            <div className={blk('side')}>
                 { props.left }
             </div>
-            <div className="panel-layout__content">
+            <div className={blk('content')}>
                 { props.children }
             </div>
-            <div className="panel-layout__side">
+            <div className={blk('side')}>
                 { props.right }
             </div>
         </div>

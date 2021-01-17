@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import PanelLayout from "../../layouts/PanelLayout";
+import SvgEditor from "../../components/SvgEditor";
 
 const TileEditor = () => {
     return (
@@ -14,7 +15,7 @@ const TileEditor = () => {
                     </PanelLayout>
                 }
             >
-                <h1>Ahoj</h1>
+                <SvgEditor />
             </PanelLayout>
         </FullscreenPageLayout>
     );

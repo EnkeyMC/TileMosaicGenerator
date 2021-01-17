@@ -20,15 +20,15 @@
 .panel-layout {
     display: flex;
     align-items: stretch;
+    height: 100%;
+    width: 100%;
 
     &--vertical {
         flex-direction: column;
-        width: 100%;
     }
 
     &--horizontal {
         flex-direction: row;
-        height: 100%;
     }
 
     &__side {
