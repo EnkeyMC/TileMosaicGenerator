@@ -2,6 +2,10 @@ import React, {SyntheticEvent, useCallback, useState} from "react";
 import bem from "bem-ts";
 import SvgCanvas from "./SvgCanvas";
 import PanelLayout from "../layouts/PanelLayout";
+import {useSelector} from "react-redux";
+import {gridSizeSelector} from "../selectors/editor";
+import SvgGrid from "./SvgGrid";
+import SvgToolbar from "./SvgToolbar";
 
 const blk = bem('svg-editor');
 
@@ -36,7 +40,7 @@ const useSvgUtils: () => [(el: SVGSVGElement) => void, (e: SyntheticEvent, grid:
 const SvgEditor = () => {
     const [svgRef, eventToSvgCoords] = useSvgUtils();
     const [points, setPoints] = useState<SVGPoint[]>([]);
-    const [grid, setGrid] = useState<number>(5);
+    const grid = useSelector(gridSizeSelector);
     const [hoverPoint, setHoverPoint] = useState<{x: number, y: number} | null>(null);
 
     const handleClick = useCallback((e) => {
@@ -51,33 +55,15 @@ const SvgEditor = () => {
         setHoverPoint(null);
     }, [setHoverPoint]);
 
-    const gridLinesCount = 100/grid + 1;
 
     return (
         <div className={blk()}>
-            <PanelLayout left={
-                <div className={blk('toolbar')}>
-                    <div className="buttons has-addons is-centered">
-                        <button className="button">Line</button>
-                        <button className="button">Polyline</button>
-                        <button className="button">Circle</button>
-                        <button className="button">Polygon</button>
-                    </div>
-                </div>
-            }>
+            <PanelLayout left={<SvgToolbar />}>
                 <div className={blk('wrap')}>
                     <SvgCanvas svgRef={svgRef} blk={blk} eventHandlers={{onClick: handleClick, onMouseMove: handleMouseMove, onMouseLeave: handleMouseExit}}
                                overlay={
                                    <>
-                                       {Array(gridLinesCount).fill(0).map((_, idx) =>
-                                           <line x1={0} y1={idx * grid} x2={100} y2={idx * grid} stroke="#000" strokeOpacity={0.3}
-                                                 strokeWidth={1} vectorEffect="non-scaling-stroke"/>
-                                       )}
-                                       {Array(gridLinesCount).fill(0).map((_, idx) =>
-                                           <line y1={0} x1={idx * grid} y2={100} x2={idx * grid} stroke="#000" strokeOpacity={0.3}
-                                                 strokeWidth={1} vectorEffect="non-scaling-stroke"/>
-                                       )}
-
+                                       <SvgGrid gridSize={grid} />
                                        {hoverPoint && <circle cx={hoverPoint.x} cy={hoverPoint.y} r={1} stroke="black" strokeWidth={2}
                                                               vectorEffect="non-scaling-stroke"/>}
                                    </>
