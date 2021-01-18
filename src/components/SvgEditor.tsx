@@ -1,15 +1,18 @@
-import React, {SyntheticEvent, useCallback, useState} from "react";
+import React, {SyntheticEvent, useCallback, useEffect, useState} from "react";
 import bem from "bem-ts";
 import SvgCanvas from "./SvgCanvas";
 import PanelLayout from "../layouts/PanelLayout";
 import {useSelector} from "react-redux";
-import {gridSizeSelector} from "../selectors/editor";
+import {elementsSelector, gridSizeSelector, toolSelector} from "../selectors/editor";
 import SvgGrid from "./SvgGrid";
 import SvgToolbar from "./SvgToolbar";
+import {Point} from "../models/svg";
+import {useTool} from "../editor-tools";
+import SvgShapeRenderer from "./SvgShapeRenderer";
 
 const blk = bem('svg-editor');
 
-const useSvgUtils: () => [(el: SVGSVGElement) => void, (e: SyntheticEvent, grid: number) => SVGPoint] = () => {
+const useSvgUtils: () => [(el: SVGSVGElement) => void, (e: SyntheticEvent, grid: number) => Point] = () => {
     const [svg, setSvgRef] = useState(null);
     const [svgPoint, setSvgPoint] = useState(null);
     const ref = useCallback(el => {
@@ -19,9 +22,9 @@ const useSvgUtils: () => [(el: SVGSVGElement) => void, (e: SyntheticEvent, grid:
         }
     }, [setSvgRef]);
 
-    const eventToSvgCoords = useCallback<(e: SyntheticEvent, grid: number) => SVGPoint>((e, grid) => {
+    const eventToSvgCoords = useCallback<(e: SyntheticEvent, grid: number) => Point>((e, grid): Point => {
         if (svgPoint === null)
-            return;
+            return {x: 0, y: 0};
         // @ts-ignore
         svgPoint.x = e.clientX;
         // @ts-ignore
@@ -29,9 +32,10 @@ const useSvgUtils: () => [(el: SVGSVGElement) => void, (e: SyntheticEvent, grid:
 
         // @ts-ignore
         const transformed = svgPoint.matrixTransform(svg.getScreenCTM()?.inverse());
-        transformed.x = Math.round(transformed.x / grid) * grid;
-        transformed.y = Math.round(transformed.y / grid) * grid;
-        return transformed;
+        return {
+            x: Math.round(transformed.x / grid) * grid,
+            y: Math.round(transformed.y / grid) * grid,
+        };
     }, [svgPoint, svg]);
 
     return [ref, eventToSvgCoords];
@@ -39,22 +43,30 @@ const useSvgUtils: () => [(el: SVGSVGElement) => void, (e: SyntheticEvent, grid:
 
 const SvgEditor = () => {
     const [svgRef, eventToSvgCoords] = useSvgUtils();
-    const [points, setPoints] = useState<SVGPoint[]>([]);
     const grid = useSelector(gridSizeSelector);
+    const selectedTool = useSelector(toolSelector);
+    const elements = useSelector(elementsSelector);
     const [hoverPoint, setHoverPoint] = useState<{x: number, y: number} | null>(null);
+    const tool = useTool(selectedTool);
 
     const handleClick = useCallback((e) => {
-        setPoints(points.concat([eventToSvgCoords(e, grid)]));
-    }, [eventToSvgCoords, points, setPoints, grid]);
+        const point = eventToSvgCoords(e, grid);
+        tool.svgEventHandlers.onClick(point);
+    }, [eventToSvgCoords, grid, tool.svgEventHandlers.onClick]);
 
     const handleMouseMove = useCallback(e => {
-        setHoverPoint(eventToSvgCoords(e, grid));
+        const point = eventToSvgCoords(e, grid);
+        setHoverPoint(point);
     }, [grid, eventToSvgCoords]);
 
     const handleMouseExit = useCallback(e => {
         setHoverPoint(null);
-    }, [setHoverPoint]);
+        tool.svgEventHandlers.onMouseLeave(eventToSvgCoords(e, grid));
+    }, [setHoverPoint, eventToSvgCoords, grid, tool.svgEventHandlers.onMouseLeave]);
 
+    useEffect(() => {
+        hoverPoint && tool.svgEventHandlers.onMouseMove(hoverPoint);
+    }, [hoverPoint]);
 
     return (
         <div className={blk()}>
@@ -69,7 +81,8 @@ const SvgEditor = () => {
                                    </>
                                }
                     >
-                        <polyline points={points.map(p => `${p.x},${p.y}`).join(' ')} style={{fill: 'red'}} />
+                        {elements.map((el, idx) => <SvgShapeRenderer key={idx} shape={el} />)}
+                        {tool.renderedShape}
                     </SvgCanvas>
                 </div>
             </PanelLayout>
