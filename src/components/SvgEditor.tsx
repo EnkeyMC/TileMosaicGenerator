@@ -3,12 +3,13 @@ import bem from "bem-ts";
 import SvgCanvas from "./SvgCanvas";
 import PanelLayout from "../layouts/PanelLayout";
 import {useSelector} from "react-redux";
-import {elementsSelector, gridSizeSelector, toolSelector} from "../selectors/editor";
+import {elementsSelector, gridSizeSelector, selectedIdxSelector, toolSelector} from "../selectors/editor";
 import SvgGrid from "./SvgGrid";
 import SvgToolbar from "./SvgToolbar";
 import {Point} from "../models/svg";
 import {useTool} from "../editor-tools";
 import SvgShapeRenderer from "./SvgShapeRenderer";
+import {ToolType} from "../editor-tools/Tool";
 
 const blk = bem('svg-editor');
 
@@ -45,6 +46,7 @@ const SvgEditor = () => {
     const [svgRef, eventToSvgCoords] = useSvgUtils();
     const grid = useSelector(gridSizeSelector);
     const selectedTool = useSelector(toolSelector);
+    const selectedIdx = useSelector(selectedIdxSelector);
     const elements = useSelector(elementsSelector);
     const [hoverPoint, setHoverPoint] = useState<{x: number, y: number} | null>(null);
     const tool = useTool(selectedTool);
@@ -64,6 +66,18 @@ const SvgEditor = () => {
         tool.svgEventHandlers.onMouseLeave(eventToSvgCoords(e, grid));
     }, [setHoverPoint, eventToSvgCoords, grid, tool.svgEventHandlers.onMouseLeave]);
 
+    const handleShapeClick = useCallback((e: SyntheticEvent, idx) => {
+        if (tool.toolType === ToolType.MANIPULATOR) {
+            e.stopPropagation();
+            tool.onShapeClick(idx, elements[idx]);
+        }
+    }, [tool.onShapeClick, elements]);
+
+    const handleContextMenu = useCallback((e: SyntheticEvent) => {
+        e.preventDefault();
+        tool.svgEventHandlers.onFinish();
+    }, [tool.svgEventHandlers.onFinish]);
+
     useEffect(() => {
         hoverPoint && tool.svgEventHandlers.onMouseMove(hoverPoint);
     }, [hoverPoint]);
@@ -72,16 +86,23 @@ const SvgEditor = () => {
         <div className={blk()}>
             <PanelLayout left={<SvgToolbar />}>
                 <div className={blk('wrap')}>
-                    <SvgCanvas svgRef={svgRef} blk={blk} eventHandlers={{onClick: handleClick, onMouseMove: handleMouseMove, onMouseLeave: handleMouseExit}}
+                    <SvgCanvas svgRef={svgRef} blk={blk}
+                               eventHandlers={{
+                                   onClick: handleClick,
+                                   onMouseMove: handleMouseMove,
+                                   onMouseLeave: handleMouseExit,
+                                   onContextMenu: handleContextMenu
+                               }}
                                overlay={
                                    <>
                                        <SvgGrid gridSize={grid} />
-                                       {hoverPoint && <circle cx={hoverPoint.x} cy={hoverPoint.y} r={1} stroke="black" strokeWidth={2}
+                                       {hoverPoint && tool.showHoverPoint &&
+                                            <circle cx={hoverPoint.x} cy={hoverPoint.y} r={1} stroke="black" strokeWidth={2}
                                                               vectorEffect="non-scaling-stroke"/>}
                                    </>
                                }
                     >
-                        {elements.map((el, idx) => <SvgShapeRenderer key={idx} shape={el} />)}
+                        {elements.map((el, idx) => <SvgShapeRenderer key={idx} selected={idx === selectedIdx} shape={el} eventHandlers={{onClick: (e: SyntheticEvent) => handleShapeClick(e, idx)}} />)}
                         {tool.renderedShape}
                     </SvgCanvas>
                 </div>

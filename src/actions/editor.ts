@@ -30,10 +30,10 @@ export function setGrid(size: number): SetGridAction {
 }
 
 export interface SelectShapeAction extends Action<typeof EDITOR_SELECT_SHAPE> {
-    idx: number;
+    idx: number | null;
 }
 
-export function selectShape(idx: number): SelectShapeAction {
+export function selectShape(idx: number | null): SelectShapeAction {
     return {
         type: EDITOR_SELECT_SHAPE,
         idx

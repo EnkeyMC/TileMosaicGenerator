@@ -1,4 +1,4 @@
-import {ReactNode, SyntheticEvent, useCallback, useEffect, useMemo, useState} from "react";
+import {ReactNode, useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import Select from "./Select";
 import Line from "./Line";
@@ -6,7 +6,7 @@ import Polyline from "./Polyline";
 import Circle from "./Circle";
 import Polygon from "./Polygon";
 import {Point, SvgShape} from "../models/svg";
-import Tool from "./Tool";
+import Tool, {ToolType} from "./Tool";
 
 export enum Tools {
     SELECT,
@@ -31,19 +31,23 @@ interface ToolHook {
         onClick: EditorEventHandler,
         onMouseMove: EditorEventHandler,
         onMouseLeave: EditorEventHandler,
+        onFinish: () => void;
     };
     onShapeClick: (idx: number, shape: SvgShape) => void;
     renderedShape: ReactNode;
+    showHoverPoint: boolean;
+    toolType: ToolType;
 }
 
 export const useTool = (tool: Tools): ToolHook => {
     const dispatch = useDispatch();
     const [toolState, setToolState] = useState<any>();
-    const selectedTool = useMemo(() => toolMap[tool], [tool]);
+    const [selectedTool, setSelectedTool] = useState<Tool<any>>(toolMap[tool]);
 
     useEffect(() => {
-        setToolState(selectedTool.getInitialState());
-    }, [selectedTool]);
+        setSelectedTool(toolMap[tool]);
+        setToolState(toolMap[tool].getInitialState());
+    }, [tool]);
 
     const onClick = useCallback((e: Point) => {
         setToolState(selectedTool.onClick(toolState, dispatch, e));
@@ -61,13 +65,20 @@ export const useTool = (tool: Tools): ToolHook => {
         setToolState(selectedTool.onShapeClick(toolState, dispatch, idx, shape));
     }, [toolState, dispatch, setToolState, selectedTool]);
 
+    const onFinish = useCallback(() => {
+        setToolState(selectedTool.onFinish(toolState, dispatch));
+    }, [toolState, dispatch, setToolState, selectedTool]);
+
     return {
         svgEventHandlers: {
             onClick,
             onMouseMove,
             onMouseLeave,
+            onFinish,
         },
         onShapeClick,
         renderedShape: selectedTool.renderShape(toolState),
+        showHoverPoint: selectedTool.showHoverPoint(),
+        toolType: selectedTool.toolType(),
     }
 }

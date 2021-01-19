@@ -13,13 +13,14 @@ export interface EditorState {
     elements: SvgShape[];
     gridSize: number;
     selectedTool: Tools;
-    selectedIdx?: number;
+    selectedIdx: number | null;
 }
 
 const initialState: EditorState = {
     elements: [],
     gridSize: 5,
-    selectedTool: Tools.SELECT
+    selectedTool: Tools.SELECT,
+    selectedIdx: null,
 }
 
 export function editor(state = initialState, action: EditorActions): EditorState {
