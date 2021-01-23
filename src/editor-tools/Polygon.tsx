@@ -40,8 +40,10 @@ export default class Polygon extends Tool<PolygonState> {
         return {
             type: SvgShapeType.TYPE_POLYGON,
             zIndex: 0,
-            colorId: 0,
+            fillColorId: 0,
             points: [],
+            strokeColorId: null,
+            strokeWidth: null,
         };
     }
 }

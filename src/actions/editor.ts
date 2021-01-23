@@ -6,6 +6,7 @@ export const EDITOR_ADD_SHAPE = 'EDITOR_ADD_SHAPE';
 export const EDITOR_SET_GRID = 'EDITOR_SET_GRID';
 export const EDITOR_SELECT_SHAPE = 'EDITOR_SELECT_SHAPE';
 export const EDITOR_SELECT_TOOL = 'EDITOR_SELECT_TOOL';
+export const EDITOR_ELEM_PROP_CHANGE = 'EDITOR_ELEM_PROP_CHANGE';
 
 export interface AddShapeAction extends Action<typeof EDITOR_ADD_SHAPE> {
     shape: SvgShape
@@ -51,4 +52,19 @@ export function selectTool(tool: Tools): SelectToolAction {
     }
 }
 
-export type EditorActions = AddShapeAction | SetGridAction | SelectShapeAction | SelectToolAction;
+export interface ElemPropChangeAction extends Action<typeof EDITOR_ELEM_PROP_CHANGE> {
+    elemIdx: number;
+    propName: string;
+    value: any;
+}
+
+export function elemPropChange(elemIdx: number, propName: string, value: any) {
+    return {
+        type: EDITOR_ELEM_PROP_CHANGE,
+        elemIdx,
+        propName,
+        value
+    }
+}
+
+export type EditorActions = AddShapeAction | SetGridAction | SelectShapeAction | SelectToolAction | ElemPropChangeAction;

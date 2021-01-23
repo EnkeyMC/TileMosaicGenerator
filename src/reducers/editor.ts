@@ -1,6 +1,6 @@
 import {SvgShape} from "../models/svg";
 import {
-    EDITOR_ADD_SHAPE,
+    EDITOR_ADD_SHAPE, EDITOR_ELEM_PROP_CHANGE,
     EDITOR_SELECT_SHAPE,
     EDITOR_SELECT_TOOL,
     EDITOR_SET_GRID,
@@ -34,6 +34,10 @@ export function editor(state = initialState, action: EditorActions): EditorState
             return {...state, selectedIdx: action.idx};
         case EDITOR_SELECT_TOOL:
             return {...state, selectedTool: action.tool};
+        case EDITOR_ELEM_PROP_CHANGE:
+            return {...state, elements: state.elements.map(
+                (s, i) => i === action.elemIdx ? {...s, [action.propName]: action.value} : s
+            )}
         default:
             return state;
     }

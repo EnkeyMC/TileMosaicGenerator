@@ -4,5 +4,10 @@ $navbar-breakpoint: "400px";
 
 @import "~bulma/bulma";
 
+html {
+  overflow: hidden;
+}
+
 @import "layout";
 @import "svg-editor";
+@import "palette-picker";

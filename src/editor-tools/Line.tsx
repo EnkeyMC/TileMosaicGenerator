@@ -33,7 +33,8 @@ export default class Line extends Tool<LineState> {
         return {
             type: SvgShapeType.TYPE_LINE,
             zIndex: 0,
-            colorId: 0,
+            strokeColorId: 0,
+            strokeWidth: 2,
         };
     }
 }

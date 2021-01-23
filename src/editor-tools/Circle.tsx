@@ -34,7 +34,9 @@ export default class Circle extends Tool<CircleState> {
         return {
             type: SvgShapeType.TYPE_CIRCLE,
             zIndex: 0,
-            colorId: 0,
+            fillColorId: 0,
+            strokeWidth: null,
+            strokeColorId: null,
         };
     }
 

@@ -37,7 +37,8 @@ export default class Polyline extends Tool<PolylineState> {
         return {
             type: SvgShapeType.TYPE_POLYLINE,
             zIndex: 0,
-            colorId: 0,
+            strokeColorId: 0,
+            strokeWidth: 2,
             points: [],
         };
     }

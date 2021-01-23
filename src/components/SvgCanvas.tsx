@@ -3,7 +3,7 @@ import React, {EventHandler, ReactNode, SyntheticEvent} from "react";
 interface Props {
     svgRef?: (el: SVGSVGElement) => void;
     blk: (element: string) => string;
-    eventHandlers: {
+    eventHandlers?: {
         onClick?: EventHandler<SyntheticEvent>;
         onMouseMove?: EventHandler<SyntheticEvent>;
         onMouseLeave?: EventHandler<SyntheticEvent>;

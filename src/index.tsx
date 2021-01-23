@@ -6,6 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import store from "./reducers";
 import { Provider } from 'react-redux';
 
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+import '@fortawesome/fontawesome-free/js/brands'
+
 ReactDOM.render(
   <React.StrictMode>
       <Provider store={store}>

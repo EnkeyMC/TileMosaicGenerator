@@ -6,3 +6,5 @@ export const gridSizeSelector = (state: TheState): number => state.editor.gridSi
 export const elementsSelector = (state: TheState): SvgShape[] => state.editor.elements;
 export const toolSelector = (state: TheState): Tools => state.editor.selectedTool;
 export const selectedIdxSelector = (state: TheState): number | null => state.editor.selectedIdx;
+export const shapeSelector = (idx: number) => (state: TheState): SvgShape => state.editor.elements[idx];
+export const elementPropertySelector = (idx: number, prop: string) => (state: TheState): any => state.editor.elements[idx][prop];
