@@ -25,9 +25,14 @@ export interface Property {
 
 export type Properties = {[key: string]: Property};
 
+export const nextShapeId = (() => {
+    let lastId = 0;
+    return () => ++lastId;
+})()
+
 export interface SvgShape {
     type: SvgShapeType;
-    zIndex: number;
+    id: number;
     [key: string]: any;
 }
 

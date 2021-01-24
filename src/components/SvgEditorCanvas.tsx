@@ -97,7 +97,7 @@ const SvgEditorCanvas = () => {
                        </>
                    }
         >
-            {elements.map((el, idx) => <SvgShapeRenderer key={idx} selected={idx === selectedIdx} shape={el} eventHandlers={{onClick: (e: SyntheticEvent) => handleShapeClick(e, idx)}} />)}
+            {elements.map((el, idx) => <SvgShapeRenderer key={el.id} selected={idx === selectedIdx} shape={el} eventHandlers={{onClick: (e: SyntheticEvent) => handleShapeClick(e, idx)}} />)}
             {tool.renderedShape}
         </SvgCanvas>
     )

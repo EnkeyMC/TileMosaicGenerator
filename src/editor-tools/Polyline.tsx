@@ -1,5 +1,5 @@
 import Tool from "./Tool";
-import {Point, SvgPolyline, SvgShapeType} from "../models/svg";
+import {nextShapeId, Point, SvgPolyline, SvgShapeType} from "../models/svg";
 import {Dispatch} from "redux";
 import React from "react";
 import SvgShapeRenderer from "../components/SvgShapeRenderer";
@@ -23,7 +23,7 @@ export default class Polyline extends Tool<PolylineState> {
     onFinish(state: PolylineState, dispatch: Dispatch): PolylineState {
         const points = [...state.points];
         points.pop();
-        const shape = {...state, points} as SvgPolyline;
+        const shape = {...state, points, id: nextShapeId()} as SvgPolyline;
         dispatch(addShape(shape));
 
         return this.getInitialState();
@@ -40,6 +40,7 @@ export default class Polyline extends Tool<PolylineState> {
             strokeColorId: 0,
             strokeWidth: 2,
             points: [],
+            id: 0,
         };
     }
 }

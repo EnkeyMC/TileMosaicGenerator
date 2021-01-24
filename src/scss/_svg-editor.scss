@@ -34,6 +34,43 @@
     }
 }
 
+.svg-element-viewer {
+    width: 300px;
+    height: 100%;
+    border-right: 2px $light solid;
+
+    &__content {
+        padding: 20px;
+    }
+
+    &__items {
+        margin-bottom: -10px;
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+
+        &:hover, &--active {
+            background-color: $light;
+            box-shadow: 0 0 0 5px $light;
+        }
+    }
+
+    &__thumb {
+        width: 40px;
+        height: 40px;
+        border: 1px $grey-light solid;
+    }
+
+    &__label {
+        margin-left: 1rem;
+    }
+}
+
 .no-pointer-events {
     pointer-events: none;
 }

@@ -4,13 +4,14 @@ import PanelLayout from "../layouts/PanelLayout";
 import SvgToolbar from "./SvgToolbar";
 import SvgPropertyEditor from "./SvgPropertyEditor";
 import SvgEditorCanvas from "./SvgEditorCanvas";
+import SvgElementViewer from "./SvgElementViewer";
 
 const blk = bem('svg-editor');
 
 const SvgEditor = () => {
     return (
         <div className={blk()}>
-            <PanelLayout horizontal right={<SvgPropertyEditor />}>
+            <PanelLayout horizontal left={<SvgElementViewer />} right={<SvgPropertyEditor />}>
                 <PanelLayout left={<SvgToolbar />}>
                     <div className={blk('wrap')}>
                         <SvgEditorCanvas />

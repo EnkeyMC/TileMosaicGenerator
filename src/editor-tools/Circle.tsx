@@ -1,5 +1,5 @@
 import Tool from "./Tool";
-import {Point, SvgCircle, SvgShapeType} from "../models/svg";
+import {nextShapeId, Point, SvgCircle, SvgShapeType} from "../models/svg";
 import {Dispatch} from "redux";
 import {addShape} from "../actions/editor";
 import SvgShapeRenderer from "../components/SvgShapeRenderer";
@@ -10,7 +10,7 @@ export type CircleState = Partial<SvgCircle>;
 export default class Circle extends Tool<CircleState> {
     onClick(state: CircleState, dispatch: Dispatch, e: Point): CircleState {
         if (state.center) {
-            dispatch(addShape(state as SvgCircle));
+            dispatch(addShape({...state, id: nextShapeId()} as SvgCircle));
             return this.getInitialState();
         }
 

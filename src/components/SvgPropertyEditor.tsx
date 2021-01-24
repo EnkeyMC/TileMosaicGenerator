@@ -8,6 +8,7 @@ import {elemPropChange} from "../actions/editor";
 import FloatControl from "./controls/FloatControl";
 import PointControl from "./controls/PointControl";
 import PalettePickerControl from "./controls/PalettePickerControl";
+import Scrollable from "./Scrollable";
 
 
 const blk = bem('svg-properties');
@@ -68,13 +69,15 @@ const SvgPropertyEditor = () => {
 
     return (
         <div className={blk()}>
-            <h2 className={"title " + blk('title')}>Properties</h2>
+            <Scrollable>
+                <h2 className={"title " + blk('title')}>Properties</h2>
 
-            {selectedIdx === null ?
-                <p className={blk('text', ['unselected'])}>No shape selected</p>
-                :
-                <PropertiesEditor shapeIdx={selectedIdx} />
-            }
+                {selectedIdx === null ?
+                    <p className={blk('text', ['unselected'])}>No shape selected</p>
+                    :
+                    <PropertiesEditor shapeIdx={selectedIdx} />
+                }
+            </Scrollable>
         </div>
     );
 }
