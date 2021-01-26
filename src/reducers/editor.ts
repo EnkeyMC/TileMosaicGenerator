@@ -1,8 +1,8 @@
 import {SvgShape} from "../models/svg";
 import {
-    EDITOR_ADD_SHAPE, EDITOR_ELEM_PROP_CHANGE,
+    EDITOR_ADD_SHAPE, EDITOR_DELETE_ELEMENT, EDITOR_ELEM_PROP_CHANGE,
     EDITOR_SELECT_SHAPE,
-    EDITOR_SELECT_TOOL,
+    EDITOR_SELECT_TOOL, EDITOR_SET_ELEMENTS,
     EDITOR_SET_GRID,
     EditorActions
 } from "../actions/editor";
@@ -26,8 +26,9 @@ const initialState: EditorState = {
 export function editor(state = initialState, action: EditorActions): EditorState {
     switch (action.type) {
         case EDITOR_ADD_SHAPE:
+            const newSelected = state.elements.length;
             const elements = [...state.elements, action.shape];
-            return {...state, elements};
+            return {...state, elements, selectedIdx: newSelected};
         case EDITOR_SET_GRID:
             return {...state, gridSize: action.size};
         case EDITOR_SELECT_SHAPE:
@@ -38,6 +39,15 @@ export function editor(state = initialState, action: EditorActions): EditorState
             return {...state, elements: state.elements.map(
                 (s, i) => i === action.elemIdx ? {...s, [action.propName]: action.value} : s
             )}
+        case EDITOR_SET_ELEMENTS:
+            const newSelectedIdx = state.selectedIdx !== null
+                ?
+                action.elements.findIndex(el => el.id === state.elements[state.selectedIdx ?? 0].id)
+                :
+                null;
+            return {...state, elements: action.elements, selectedIdx: newSelectedIdx};
+        case EDITOR_DELETE_ELEMENT:
+            return {...state, elements: state.elements.filter(el => el.id !== action.id)};
         default:
             return state;
     }

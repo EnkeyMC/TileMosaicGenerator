@@ -7,6 +7,8 @@ export const EDITOR_SET_GRID = 'EDITOR_SET_GRID';
 export const EDITOR_SELECT_SHAPE = 'EDITOR_SELECT_SHAPE';
 export const EDITOR_SELECT_TOOL = 'EDITOR_SELECT_TOOL';
 export const EDITOR_ELEM_PROP_CHANGE = 'EDITOR_ELEM_PROP_CHANGE';
+export const EDITOR_SET_ELEMENTS = 'EDITOR_SET_ELEMENTS';
+export const EDITOR_DELETE_ELEMENT = 'EDITOR_DELETE_ELEMENT';
 
 export interface AddShapeAction extends Action<typeof EDITOR_ADD_SHAPE> {
     shape: SvgShape
@@ -67,4 +69,26 @@ export function elemPropChange(elemIdx: number, propName: string, value: any) {
     }
 }
 
-export type EditorActions = AddShapeAction | SetGridAction | SelectShapeAction | SelectToolAction | ElemPropChangeAction;
+export interface SetElementsAction extends Action<typeof EDITOR_SET_ELEMENTS> {
+    elements: SvgShape[]
+}
+
+export function setElements(elements: SvgShape[]): SetElementsAction {
+    return {
+        type: EDITOR_SET_ELEMENTS,
+        elements
+    }
+}
+
+export interface DeleteElementAction extends Action<typeof EDITOR_DELETE_ELEMENT> {
+    id: number
+}
+
+export function deleteElement(id: number): DeleteElementAction {
+    return {
+        type: EDITOR_DELETE_ELEMENT,
+        id
+    }
+}
+
+export type EditorActions = AddShapeAction | SetGridAction | SelectShapeAction | SelectToolAction | ElemPropChangeAction | SetElementsAction | DeleteElementAction;

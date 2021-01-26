@@ -6,7 +6,8 @@ import SvgCanvas from "./SvgCanvas";
 import SvgShapeRenderer from "./SvgShapeRenderer";
 import {SvgShape, SvgShapeType} from "../models/svg";
 import Scrollable from "./Scrollable";
-import {selectShape} from "../actions/editor";
+import {deleteElement, selectShape, setElements} from "../actions/editor";
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 
 const blk = bem('svg-element-viewer');
 
@@ -31,37 +32,94 @@ const shapeToLabel = (shape: SvgShape): string => {
     return `${type} #${shape.id}`;
 }
 
+const reorder = (list: any[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+};
+
 const SvgElementViewer = () => {
     const elements = useSelector(elementsSelector);
     const selectedIdx = useSelector(selectedIdxSelector);
     const dispatch = useDispatch();
 
     const handleSelect = useCallback((idx: number) => {
-        dispatch(selectShape(idx));
+        dispatch(selectShape(elements.length - idx - 1));
+    }, [dispatch, elements]);
+
+    const handleDragEnd = useCallback((result) => {
+        if (!result.destination) {
+            return;
+        }
+        dispatch(setElements(reorder(
+            elements,
+            elements.length - result.source.index - 1,
+            elements.length - result.destination.index - 1
+        )));
+    }, [elements, dispatch]);
+
+    const handleDelete = useCallback((id: number) => {
+        dispatch(deleteElement(id));
     }, [dispatch]);
 
+    const elementsReversed = [...elements];
+    elementsReversed.reverse();
+
     return (
-        <div className={blk()}>
-            <Scrollable>
-                <div className={blk('content')}>
-                    <h2 className="title">Elements</h2>
-                    <div className={blk('items')}>
-                        {elements.map((el, idx) =>
-                            <div onClick={() => handleSelect(idx)} className={blk('item', selectedIdx === idx ? ['active'] : [])}>
-                                <div className={blk('thumb')}>
-                                    <SvgCanvas blk={blk}>
-                                        <SvgShapeRenderer shape={el} />
-                                    </SvgCanvas>
+        <DragDropContext onDragEnd={handleDragEnd}>
+            <div className={blk()}>
+                <Scrollable>
+                    <div className={blk('content')}>
+                        <h2 className="title">Elements</h2>
+                        <Droppable droppableId="elements">
+                            {((provided, snapshot) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    className={blk('items')}
+                                >
+                                    {elementsReversed.map((el, idx) =>
+                                        <Draggable draggableId={el.id.toString()} index={idx} key={el.id}>
+                                            {(innerProvided, snapshot) => (
+                                                <div
+                                                    key={el.id}
+                                                    onClick={() => handleSelect(idx)}
+                                                    className={blk('item', selectedIdx ===  elements.length - idx - 1 ? ['active'] : [])}
+                                                    {...innerProvided.draggableProps}
+                                                    {...innerProvided.dragHandleProps}
+                                                    ref={innerProvided.innerRef}
+                                                >
+                                                    <div className={blk('info')}>
+                                                        <div className={blk('thumb')}>
+                                                            <SvgCanvas blk={blk}>
+                                                                <SvgShapeRenderer shape={el} />
+                                                            </SvgCanvas>
+                                                        </div>
+                                                        <div className={blk('label')}>
+                                                            {shapeToLabel(el)}
+                                                        </div>
+                                                    </div>
+                                                    <div className={blk('actions')}>
+                                                        <button onClick={() => handleDelete(el.id)} className={blk('action', ['delete'])}>
+                                                            <span className="icon">
+                                                                <i className="fas fa-trash" />
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    )}
+                                    {provided.placeholder}
                                 </div>
-                                <div className={blk('label')}>
-                                    {shapeToLabel(el)}
-                                </div>
-                            </div>
-                        )}
+                            ))}
+                        </Droppable>
                     </div>
-                </div>
-            </Scrollable>
-        </div>
+                </Scrollable>
+            </div>
+        </DragDropContext>
     )
 }
 

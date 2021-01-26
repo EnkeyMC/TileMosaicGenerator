@@ -60,7 +60,7 @@ const PickerItem = React.forwardRef((props: PickerItemProps, ref: any) => {
                 </button>}
                 {onDelete && <button onClick={() => onDelete(id)} className={blk('action', ['delete'])}>
                     <span className="icon">
-                        <i className="fas fa-times" />
+                        <i className="fas fa-trash" />
                     </span>
                 </button>}
             </div>}

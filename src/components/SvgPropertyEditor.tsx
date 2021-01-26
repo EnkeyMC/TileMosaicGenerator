@@ -33,7 +33,7 @@ const PropertyInput = (props: {property: Property, propName: string, initialValu
             default:
                 return null;
         }
-    }, [props.property.type]);
+    }, [props.property.type, props.shapeIdx]);
 
     return (
         <div className="field">
