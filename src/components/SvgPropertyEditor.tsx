@@ -47,6 +47,8 @@ const PropertyInput = (props: {property: Property, propName: string, initialValu
 
 const PropertiesEditor = (props: {shapeIdx: number}) => {
     const shape = useSelector(shapeSelector(props.shapeIdx));
+    if (!shape) return null;
+
     const propertyTypes: Properties = propertiesMap[shape.type];
     const properties = Object.keys(propertyTypes);
 

@@ -1,0 +1,60 @@
+.tiles {
+    padding: 30px;
+
+    &__items {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -20px;
+        margin-bottom: -20px;
+    }
+}
+
+.tile-item {
+    width: 150px;
+    height: 150px;
+    border: 1px solid $grey-lighter;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: 4px;
+
+    &--new {
+        border-style: dashed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $grey;
+
+        &:hover {
+            background-color: $light;
+        }
+    }
+
+    &:hover &__actions {
+        display: flex;
+    }
+
+    &__actions {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -0.5px;
+    }
+
+    &__action {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        background-color: $light;
+        border-radius: 0;
+
+        &--edit:hover {
+            background-color: $grey-light;
+        }
+
+        &--delete:hover {
+            background-color: $danger;
+        }
+    }
+}

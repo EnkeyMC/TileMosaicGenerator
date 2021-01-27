@@ -1,13 +1,16 @@
 import React, {SyntheticEvent, useCallback, useEffect, useState} from "react";
 import bem from "bem-ts";
 import SvgCanvas from "./SvgCanvas";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {elementsSelector, gridSizeSelector, selectedIdxSelector, toolSelector} from "../selectors/editor";
 import SvgGrid from "./SvgGrid";
 import {Point} from "../models/svg";
 import {useTool} from "../editor-tools";
 import SvgShapeRenderer from "./SvgShapeRenderer";
 import {ToolType} from "../editor-tools/Tool";
+import {clear, setElements} from "../actions/editor";
+import { useParams } from "react-router-dom";
+import {tileSelector} from "../selectors/tiles";
 
 const blk = bem('svg-editor');
 
@@ -48,6 +51,11 @@ const SvgEditorCanvas = () => {
     const elements = useSelector(elementsSelector);
     const [hoverPoint, setHoverPoint] = useState<{x: number, y: number} | null>(null);
     const tool = useTool(selectedTool);
+    const dispatch = useDispatch();
+
+    const params = useParams<{id: string}>();
+    const id = params.id ? parseInt(params.id) : null;
+    const tile = useSelector(tileSelector(id));
 
     const handleClick = useCallback((e) => {
         const point = eventToSvgCoords(e, grid);
@@ -79,6 +87,13 @@ const SvgEditorCanvas = () => {
     useEffect(() => {
         hoverPoint && tool.svgEventHandlers.onMouseMove(hoverPoint);
     }, [hoverPoint]);
+
+    useEffect(() => {
+        dispatch(clear());
+        if (id !== null && tile) {
+            dispatch(setElements(tile.elements));
+        }
+    }, [id, tile, dispatch]);
 
     return (
         <SvgCanvas svgRef={svgRef} blk={blk}

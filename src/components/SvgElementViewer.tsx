@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {SyntheticEvent, useCallback} from "react";
 import bem from "bem-ts";
 import {useDispatch, useSelector} from "react-redux";
 import {elementsSelector, selectedIdxSelector} from "../selectors/editor";
@@ -45,7 +45,8 @@ const SvgElementViewer = () => {
     const selectedIdx = useSelector(selectedIdxSelector);
     const dispatch = useDispatch();
 
-    const handleSelect = useCallback((idx: number) => {
+    const handleSelect = useCallback((e: SyntheticEvent, idx: number) => {
+        e.stopPropagation();
         dispatch(selectShape(elements.length - idx - 1));
     }, [dispatch, elements]);
 
@@ -60,8 +61,13 @@ const SvgElementViewer = () => {
         )));
     }, [elements, dispatch]);
 
-    const handleDelete = useCallback((id: number) => {
+    const handleDelete = useCallback((e: SyntheticEvent, id: number) => {
+        e.stopPropagation();
         dispatch(deleteElement(id));
+    }, [dispatch]);
+
+    const handleDeselect = useCallback(() => {
+        dispatch(selectShape(null));
     }, [dispatch]);
 
     const elementsReversed = [...elements];
@@ -69,7 +75,7 @@ const SvgElementViewer = () => {
 
     return (
         <DragDropContext onDragEnd={handleDragEnd}>
-            <div className={blk()}>
+            <div className={blk()} onClick={handleDeselect}>
                 <Scrollable>
                     <div className={blk('content')}>
                         <h2 className="title">Elements</h2>
@@ -85,7 +91,7 @@ const SvgElementViewer = () => {
                                             {(innerProvided, snapshot) => (
                                                 <div
                                                     key={el.id}
-                                                    onClick={() => handleSelect(idx)}
+                                                    onClick={(e) => handleSelect(e, idx)}
                                                     className={blk('item', selectedIdx ===  elements.length - idx - 1 ? ['active'] : [])}
                                                     {...innerProvided.draggableProps}
                                                     {...innerProvided.dragHandleProps}
@@ -102,7 +108,7 @@ const SvgElementViewer = () => {
                                                         </div>
                                                     </div>
                                                     <div className={blk('actions')}>
-                                                        <button onClick={() => handleDelete(el.id)} className={blk('action', ['delete'])}>
+                                                        <button onClick={(e) => handleDelete(e, el.id)} className={blk('action', ['delete'])}>
                                                             <span className="icon">
                                                                 <i className="fas fa-trash" />
                                                             </span>

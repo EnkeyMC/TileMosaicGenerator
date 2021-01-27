@@ -41,8 +41,8 @@ interface ToolHook {
 
 export const useTool = (tool: Tools): ToolHook => {
     const dispatch = useDispatch();
-    const [toolState, setToolState] = useState<any>();
     const [selectedTool, setSelectedTool] = useState<Tool<any>>(toolMap[tool]);
+    const [toolState, setToolState] = useState<any>(selectedTool.getInitialState());
 
     useEffect(() => {
         setSelectedTool(toolMap[tool]);

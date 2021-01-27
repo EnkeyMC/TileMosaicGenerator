@@ -17,8 +17,8 @@ const Navbar = () => {
                         Generator
                     </Link>
 
-                    <Link to="/tile-editor" className="navbar-item">
-                        Tile editor
+                    <Link to="/tiles" className="navbar-item">
+                        Tiles
                     </Link>
                 </div>
             </div>
