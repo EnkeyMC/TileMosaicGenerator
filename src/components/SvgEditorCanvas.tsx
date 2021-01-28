@@ -97,6 +97,7 @@ const SvgEditorCanvas = () => {
 
     return (
         <SvgCanvas svgRef={svgRef} blk={blk}
+                   padding={grid / 2}
                    eventHandlers={{
                        onClick: handleClick,
                        onMouseMove: handleMouseMove,
@@ -112,8 +113,10 @@ const SvgEditorCanvas = () => {
                        </>
                    }
         >
-            {elements.map((el, idx) => <SvgShapeRenderer key={el.id} selected={idx === selectedIdx} shape={el} eventHandlers={{onClick: (e: SyntheticEvent) => handleShapeClick(e, idx)}} />)}
-            {tool.renderedShape}
+            <SvgCanvas width={100} height={100}>
+                {elements.map((el, idx) => <SvgShapeRenderer key={el.id} selected={idx === selectedIdx} shape={el} eventHandlers={{onClick: (e: SyntheticEvent) => handleShapeClick(e, idx)}} />)}
+                {tool.renderedShape}
+            </SvgCanvas>
         </SvgCanvas>
     )
 }

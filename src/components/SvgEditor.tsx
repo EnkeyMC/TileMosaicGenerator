@@ -14,7 +14,9 @@ const SvgEditor = () => {
             <PanelLayout horizontal left={<SvgElementViewer />} right={<SvgPropertyEditor />}>
                 <PanelLayout left={<SvgToolbar />}>
                     <div className={blk('wrap')}>
-                        <SvgEditorCanvas />
+                        <div className={blk('content')}>
+                            <SvgEditorCanvas />
+                        </div>
                     </div>
                 </PanelLayout>
             </PanelLayout>

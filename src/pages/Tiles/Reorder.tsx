@@ -46,7 +46,7 @@ const Reorder = () => {
                         <div className={blk('columns')}>
                             <div className={blk('col', ['idx'])}>
                                 {tiles.map((_, idx) => (
-                                    <div className={blk('item', ['idx'])}>{idx}</div>
+                                    <div key={idx} className={blk('item', ['idx'])}>{idx}</div>
                                 ))}
                             </div>
                             <Droppable droppableId="tiles">
