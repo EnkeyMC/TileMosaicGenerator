@@ -7,7 +7,7 @@ import Reorder from "./pages/Tiles/Reorder";
 
 function App() {
   return (
-    <Router>
+    <Router basename={'/TileMosaicGenerator'}>
       <Switch>
         <Route path="/tiles/new">
           <TileEditor />
