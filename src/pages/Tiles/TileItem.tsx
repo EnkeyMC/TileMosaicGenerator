@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 
 const blk = bem('tile-item');
 
-const TileItem = (props: {tile: Tile}) => {
+const TileItem = (props: {tile: Tile, idx: number}) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -39,6 +39,9 @@ const TileItem = (props: {tile: Tile}) => {
                         </span>
                     </button>
                 </div>
+            </div>
+            <div className={blk('label')}>
+                <span className="has-text-grey">idx: {props.idx}</span>
             </div>
         </div>
     );

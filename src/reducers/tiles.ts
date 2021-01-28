@@ -1,5 +1,5 @@
 import Tile from "../models/Tile";
-import {TILES_DELETE_TILE, TILES_SET_TILE, TilesActions} from "../actions/tiles";
+import {TILES_DELETE_TILE, TILES_SET_TILE, TILES_SET_TILES, TilesActions} from "../actions/tiles";
 
 export const nextTileId = (() => {
     let lastId = 0;
@@ -20,6 +20,8 @@ export function tiles(state = initialState, action: TilesActions): TilesState {
             return [...state, action.tile];
         case TILES_DELETE_TILE:
             return state.filter(tile => tile.id !== action.id);
+        case TILES_SET_TILES:
+            return [...action.tiles];
         default:
             return state;
     }

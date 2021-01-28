@@ -8,6 +8,7 @@ import {SvgShape, SvgShapeType} from "../models/svg";
 import Scrollable from "./Scrollable";
 import {deleteElement, selectShape, setElements} from "../actions/editor";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import {reorder} from "../utils";
 
 const blk = bem('svg-element-viewer');
 
@@ -31,14 +32,6 @@ const shapeToLabel = (shape: SvgShape): string => {
 
     return `${type} #${shape.id}`;
 }
-
-const reorder = (list: any[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-};
 
 const SvgElementViewer = () => {
     const elements = useSelector(elementsSelector);
@@ -88,7 +81,7 @@ const SvgElementViewer = () => {
                                 >
                                     {elementsReversed.map((el, idx) =>
                                         <Draggable draggableId={el.id.toString()} index={idx} key={el.id}>
-                                            {(innerProvided, snapshot) => (
+                                            {(innerProvided) => (
                                                 <div
                                                     key={el.id}
                                                     onClick={(e) => handleSelect(e, idx)}

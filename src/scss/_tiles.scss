@@ -7,19 +7,26 @@
         margin-right: -20px;
         margin-bottom: -20px;
     }
+
+    &__heading {
+        display: flex;
+        align-items: baseline;
+    }
+
+    &__actions {
+        margin-left: 1em;
+    }
 }
 
 .tile-item {
     width: 150px;
-    height: 150px;
-    border: 1px solid $grey-lighter;
     margin-right: 20px;
     margin-bottom: 20px;
-    position: relative;
     border-radius: 4px;
 
     &--new {
-        border-style: dashed;
+        border: 1px dashed $grey-lighter;
+        height: 150px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -34,12 +41,22 @@
         display: flex;
     }
 
+    &__thumb {
+        position: relative;
+        border: 1px solid $grey-lighter;
+    }
+
     &__actions {
         display: none;
         position: absolute;
         left: 0;
         right: 0;
         bottom: -0.5px;
+    }
+
+    &__label {
+        text-align: center;
+        font-size: 90%;
     }
 
     &__action {
@@ -56,5 +73,73 @@
         &--delete:hover {
             background-color: $danger;
         }
+    }
+}
+
+.reorder {
+    width: 400px;
+    padding: 30px;
+    margin: 0 auto;
+
+    &__heading {
+        display: flex;
+        align-items: baseline;
+    }
+
+    &__actions {
+        margin-left: 1em;
+    }
+
+    &__columns {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__col {
+        display: flex;
+        flex-direction: column;
+
+        &--idx {
+
+        }
+
+        &--items {
+            flex-grow: 1;
+        }
+    }
+
+    &__item {
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+
+        &--idx {
+            width: 100%;
+            min-width: 50px;
+            font-size: 120%;
+            font-weight: bold;
+            padding: 0 20px;
+            justify-content: flex-end;
+        }
+
+        &--tile {
+            &:hover {
+                background-color: $light;
+                box-shadow: 0 0 0 5px $light;
+            }
+        }
+    }
+
+    &__thumb {
+        width: 50px;
+        height: 50px;
+        border: 1px solid $grey-lighter;
+        background-color: white;
+    }
+
+    &__label {
+        margin-left: 15px;
     }
 }

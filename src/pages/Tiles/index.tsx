@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {tilesSelector} from "../../selectors/tiles";
 import Scrollable from "../../components/Scrollable";
 import TileItem, {NewTileItem} from "./TileItem";
-import { useHistory } from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 
 const blk = bem('tiles');
 
@@ -24,9 +24,14 @@ const Tiles = () => {
         <FullscreenPageLayout header={<Navbar />} footer={<Footer />}>
             <Scrollable>
                 <div className={blk()}>
-                    <h1 className="title">Tiles</h1>
+                    <div className={blk('heading')}>
+                        <h1 className="title">Tiles</h1>
+                        <p className={blk('actions')}>
+                            <NavLink to="/tiles/reorder">Reorder</NavLink>
+                        </p>
+                    </div>
                     <div className={blk('items')}>
-                        {tiles.map(tile => <TileItem key={tile.id} tile={tile} />)}
+                        {tiles.map((tile, idx) => <TileItem key={tile.id} idx={idx} tile={tile} />)}
                         <NewTileItem onClick={handleAddNew} />
                     </div>
                 </div>
