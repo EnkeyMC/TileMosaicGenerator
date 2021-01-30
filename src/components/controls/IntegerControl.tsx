@@ -1,33 +1,28 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback} from "react";
+import {ControlProps, useControlLogic} from "./helpers";
 
-interface Props {
-    onChange: (val: number | null) => void;
-    initialValue?: number | null;
-    required?: boolean;
-}
 
-const IntegerControl = (props: Props) => {
-    const [value, setValue] = useState(props.initialValue);
+const IntegerControl = (props: ControlProps<number>) => {
+    const validator = useCallback(val => /^-?\d*$/.test(val as string), []);
+    const formatter = useCallback(val => {
+        const i = parseInt(val, 10);
+        return {success: !isNaN(i), formatted: i};
+    }, []);
 
-    const onChange = useCallback(e => {
-        const val = e.target.value;
-        if (val === '') {
-            if (props.required)
-                return;
-            setValue(null);
-            props.onChange(null);
-            return;
-        }
+    const [value, error, onChange] = useControlLogic<number>(props, validator, formatter);
 
-        const i = parseInt(val);
-        setValue(i);
-        props.onChange(i);
-    }, [setValue, props.onChange, props.required]);
+    const handleChange = useCallback(e => {
+        const val = e.target.value ?? null;
+        onChange(val === '' ? null : val);
+    }, [onChange]);
 
     return (
-        <div className="control">
-            <input type="number" className="input" onChange={onChange} value={value ?? ''} />
-        </div>
+        <>
+            <div className="control">
+                <input type="number" className="input" onChange={handleChange} value={value} />
+            </div>
+            {error && <p className="help is-danger">{error}</p>}
+        </>
     )
 }
 

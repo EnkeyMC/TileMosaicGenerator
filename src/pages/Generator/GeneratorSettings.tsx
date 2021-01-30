@@ -30,13 +30,13 @@ const GeneratorSettings = () => {
                         <label className="label">
                             Rows
                         </label>
-                        <IntegerControl onChange={handleRowsChange} required initialValue={rows} />
+                        <IntegerControl onChange={handleRowsChange} required value={rows} />
                     </div>
                     <div className="field">
                         <label className="label">
                             Columns
                         </label>
-                        <IntegerControl onChange={handleColsChange} required initialValue={cols} />
+                        <IntegerControl onChange={handleColsChange} required value={cols} />
                     </div>
                 </div>
             </Scrollable>

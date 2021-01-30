@@ -1,3 +1,7 @@
+import {PropertyDefinitions} from "../properties/PropertyDefinition";
+import {PropertyType} from "../properties/PropertyType";
+import {MinValidator} from "../properties/validators";
+
 export enum SvgShapeType {
     TYPE_CIRCLE = 'CIRCLE',
     TYPE_LINE = 'LINE',
@@ -9,21 +13,6 @@ export interface Point {
     x: number;
     y: number;
 }
-
-export enum PropertyType {
-    INTEGER,
-    FLOAT,
-    POINT,
-    COLOR,
-}
-
-export interface Property {
-    label: string;
-    type: PropertyType;
-    required?: boolean;
-}
-
-export type Properties = {[key: string]: Property};
 
 export const nextShapeId = (() => {
     let lastId = 0;
@@ -41,10 +30,11 @@ interface WithStroke {
     strokeColorId: number | null;
 }
 
-const WithStrokeProperties: Properties = {
+const WithStrokeProperties: PropertyDefinitions = {
     strokeWidth: {
         label: 'Stroke width',
-        type: PropertyType.FLOAT
+        type: PropertyType.FLOAT,
+        validators: [MinValidator(0)] as any
     },
     strokeColorId: {
         label: 'Stroke color',
@@ -56,7 +46,7 @@ interface WithFill {
     fillColorId: number | null;
 }
 
-const WithFillProperties: Properties = {
+const WithFillProperties: PropertyDefinitions = {
     fillColorId: {
         label: 'Fill color',
         type: PropertyType.COLOR
@@ -68,7 +58,7 @@ export interface SvgCircle extends SvgShape, WithStroke, WithFill {
     r: number;
 }
 
-export const SvgCircleProperties: Properties = {
+export const SvgCircleProperties: PropertyDefinitions = {
     center: {
         label: 'Center',
         type: PropertyType.POINT,
@@ -88,13 +78,13 @@ export interface SvgLine extends SvgShape, WithStroke {
     point2: Point;
 }
 
-export const SvgLineProperties: Properties = {
+export const SvgLineProperties: PropertyDefinitions = {
     point1: {
         label: 'Start point',
         type: PropertyType.POINT,
         required: true
     },
-    point12: {
+    point2: {
         label: 'End point',
         type: PropertyType.POINT,
         required: true
@@ -106,7 +96,7 @@ export interface SvgPolygon extends SvgShape, WithStroke, WithFill {
     points: Point[];
 }
 
-export const SvgPolygonProperties: Properties = {
+export const SvgPolygonProperties: PropertyDefinitions = {
     ...WithStrokeProperties,
     ...WithFillProperties
 }
@@ -115,7 +105,7 @@ export interface SvgPolyline extends SvgShape, WithStroke {
     points: Point[];
 }
 
-export const SvgPolylineProperties: Properties = WithStrokeProperties;
+export const SvgPolylineProperties: PropertyDefinitions = WithStrokeProperties;
 
 export const propertiesMap = {
     [SvgShapeType.TYPE_LINE]: SvgLineProperties,

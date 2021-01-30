@@ -5,6 +5,7 @@ import {paletteSelector} from "../../selectors/palette";
 import {addColor, removeColor, updateColor} from "../../actions/palette";
 import { ChromePicker } from 'react-color'
 import {defaultColor, nextId} from "../../reducers/palette";
+import {ControlProps, useValue} from "./helpers";
 
 
 const blk = bem('palette-picker');
@@ -72,15 +73,9 @@ const PickerItem = React.forwardRef((props: PickerItemProps, ref: any) => {
     )
 })
 
-interface Props {
-    initialValue?: number | null;
-    onChange: (id: number | null) => void;
-    required?: boolean;
-}
 
-
-const PalettePickerControl = (props: Props) => {
-    const [value, setValue] = useState(props.initialValue);
+const PalettePickerControl = (props: ControlProps<number>) => {
+    const [value, setValue] = useValue(props);
     const palette = useSelector(paletteSelector);
     const ids = Object.keys(palette).map(k => parseInt(k, 10));
     const selectedRef = useRef();

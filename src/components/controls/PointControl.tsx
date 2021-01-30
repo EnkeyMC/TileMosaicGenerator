@@ -1,42 +1,33 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback} from "react";
 import {Point} from "../../models/svg";
+import {ControlProps} from "./helpers";
+import FloatControl from "./FloatControl";
 
-interface Props {
-    onChange: (val: Point) => void;
-    initialValue?: Point;
-    required?: boolean;
-}
 
-const PointControl = (props: Props) => {
-    const [value, setValue] = useState(props.initialValue);
-
-    const onChange = useCallback(e => {
-        const prop = e.target.name;
-        const val = e.target.value ?? null;
-
-        if (val === null && props.required)
-            return;
-
-        setValue({...value, [prop]:  val} as Point);
-        const i = parseFloat(e.target.value);
-        const newVal = val === null ? val : i;
-        if (!isNaN(newVal)) {
-            props.onChange({...value, [prop]: newVal} as Point);
-        }
-    }, [value, setValue, props.onChange, props.required]);
+const PointControl = (props: ControlProps<Point>) => {
+    const handleChange = useCallback((name: string, value: number | null) => {
+        props.onChange({...props.value, [name]: value} as Point);
+    }, [props.onChange, props.value]);
 
     return (
         <div className="control">
             <div className="columns">
                 <div className="column">
                     <span>X</span>
-                    <input type="number" className="input" name="x" onChange={onChange} value={value?.x ?? ''} />
+                    <FloatControl
+                        onChange={val => handleChange('x', val)}
+                        required={props.required}
+                        value={props.value?.x} />
                 </div>
                 <div className="column">
                     <span>Y</span>
-                    <input type="number" className="input" name="y" onChange={onChange} value={value?.y ?? ''} />
+                    <FloatControl
+                        onChange={val => handleChange('y', val)}
+                        required={props.required}
+                        value={props.value?.y} />
                 </div>
             </div>
+            {props.error && <p className="help is-danger">{props.error}</p>}
         </div>
     )
 }
