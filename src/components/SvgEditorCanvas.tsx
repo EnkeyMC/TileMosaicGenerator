@@ -43,13 +43,17 @@ const useSvgUtils: () => [(el: SVGSVGElement) => void, (e: SyntheticEvent, grid:
     return [ref, eventToSvgCoords];
 }
 
+function isInBounds(p: Point) {
+    return p.x >= 0 && p.y >= 0 && p.x <= 100 && p.y <= 100;
+}
+
 const SvgEditorCanvas = () => {
     const [svgRef, eventToSvgCoords] = useSvgUtils();
     const grid = useSelector(gridSizeSelector);
     const selectedTool = useSelector(toolSelector);
     const selectedIdx = useSelector(selectedIdxSelector);
     const elements = useSelector(elementsSelector);
-    const [hoverPoint, setHoverPoint] = useState<{x: number, y: number} | null>(null);
+    const [hoverPoint, setHoverPoint] = useState<Point | null>(null);
     const tool = useTool(selectedTool);
     const dispatch = useDispatch();
 
@@ -59,17 +63,24 @@ const SvgEditorCanvas = () => {
 
     const handleClick = useCallback((e) => {
         const point = eventToSvgCoords(e, grid);
-        tool.svgEventHandlers.onClick(point);
+        if (isInBounds(point)) {
+            tool.svgEventHandlers.onClick(point);
+        }
     }, [eventToSvgCoords, grid, tool.svgEventHandlers.onClick]);
 
     const handleMouseMove = useCallback(e => {
         const point = eventToSvgCoords(e, grid);
-        setHoverPoint(point);
+        if (isInBounds(point)) {
+            setHoverPoint(point);
+        }
     }, [grid, eventToSvgCoords]);
 
     const handleMouseExit = useCallback(e => {
         setHoverPoint(null);
-        tool.svgEventHandlers.onMouseLeave(eventToSvgCoords(e, grid));
+        const point = eventToSvgCoords(e, grid);
+        if (isInBounds(point)) {
+            tool.svgEventHandlers.onMouseLeave(point);
+        }
     }, [setHoverPoint, eventToSvgCoords, grid, tool.svgEventHandlers.onMouseLeave]);
 
     const handleShapeClick = useCallback((e: SyntheticEvent, idx) => {

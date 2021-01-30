@@ -13,3 +13,19 @@ html {
 @import "palette-picker";
 @import "tiles";
 @import "generator";
+
+.select {
+  width: 100%;
+}
+
+.field-container {
+  border: 1px $light solid;
+  padding: 15px;
+}
+
+.import {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

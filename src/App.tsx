@@ -1,13 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {Switch, Route, HashRouter} from 'react-router-dom';
 import TileEditor from "./pages/TileEditor";
 import Generator from "./pages/Generator";
 import Tiles from "./pages/Tiles";
 import Reorder from "./pages/Tiles/Reorder";
+import Import from "./pages/Import";
 
 function App() {
   return (
-    <Router basename={'/TileMosaicGenerator'}>
+    <HashRouter>
       <Switch>
         <Route path="/tiles/new">
           <TileEditor />
@@ -21,11 +22,14 @@ function App() {
         <Route path="/tiles">
             <Tiles />
         </Route>
+        <Route path="/import">
+          <Import />
+        </Route>
         <Route path="/">
             <Generator />
         </Route>
       </Switch>
-    </Router>
+    </HashRouter>
   );
 }
 

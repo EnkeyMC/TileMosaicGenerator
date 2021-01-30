@@ -46,8 +46,17 @@ export function editor(state = initialState, action: EditorActions): EditorState
                 :
                 null;
             return {...state, elements: action.elements, selectedIdx: newSelectedIdx};
-        case EDITOR_DELETE_ELEMENT:
-            return {...state, elements: state.elements.filter(el => el.id !== action.id)};
+        case EDITOR_DELETE_ELEMENT: {
+            let newSelected = state.selectedIdx;
+            const newElements = state.elements.filter((el, idx) => {
+                const isIt = el.id === action.id;
+                if (isIt && state.selectedIdx === idx) {
+                    newSelected = null;
+                }
+                return !isIt;
+            });
+            return {...state, elements: newElements, selectedIdx: newSelected};
+        }
         case EDITOR_CLEAR:
             return initialState;
         default:

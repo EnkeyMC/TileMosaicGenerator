@@ -1,7 +1,18 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {exportSelector} from "../selectors";
+import {download} from "../utils";
 
 const Navbar = () => {
+    const exportData = useSelector(exportSelector);
+
+    const handleExport = useCallback((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        download("TMG-" + new Date().toISOString() + ".json", JSON.stringify(exportData));
+    }, [exportData]);
+
     return (
         <nav className="navbar is-info" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
@@ -20,6 +31,9 @@ const Navbar = () => {
                     <NavLink to="/tiles" className="navbar-item" activeClassName="is-active">
                         Tiles
                     </NavLink>
+
+                    <a href="#" onClick={handleExport} className="navbar-item">Export project</a>
+                    <NavLink to="/import" className="navbar-item" activeClassName="is-active">Import project</NavLink>
                 </div>
             </div>
         </nav>

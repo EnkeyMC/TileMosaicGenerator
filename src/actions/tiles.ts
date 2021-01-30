@@ -4,6 +4,8 @@ import Tile from "../models/Tile";
 export const TILES_SET_TILE = 'TILES_SET_TILE';
 export const TILES_DELETE_TILE = 'TILES_DELETE_TILE';
 export const TILES_SET_TILES = 'TILES_SET_TILES';
+export const TILES_DUPLICATE_TILE = 'TILES_DUPLICATE_TILE';
+export const TILES_ROTATE = 'TILES_ROTATE';
 
 export interface SetTileAction extends Action<typeof TILES_SET_TILE> {
     tile: Tile
@@ -38,4 +40,30 @@ export function setTiles(tiles: Tile[]): SetTilesAction {
     }
 }
 
-export type TilesActions = SetTileAction | DeleteTileAction | SetTilesAction;
+export interface DuplicateTileAction extends Action<typeof TILES_DUPLICATE_TILE> {
+    idx: number;
+    newId: number;
+}
+
+export function duplicateTile(idx: number, newId: number): DuplicateTileAction {
+    return {
+        type: TILES_DUPLICATE_TILE,
+        idx,
+        newId
+    }
+}
+
+export interface RotateAction extends Action<typeof TILES_ROTATE> {
+    idx: number;
+    ccw: boolean;
+}
+
+export function rotate(idx: number, ccw: boolean): RotateAction {
+    return {
+        type: TILES_ROTATE,
+        idx,
+        ccw
+    }
+}
+
+export type TilesActions = SetTileAction | DeleteTileAction | SetTilesAction | DuplicateTileAction | RotateAction;

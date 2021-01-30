@@ -4,8 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {paletteSelector} from "../../selectors/palette";
 import {addColor, removeColor, updateColor} from "../../actions/palette";
 import { ChromePicker } from 'react-color'
-import {defaultColor, nextId} from "../../reducers/palette";
+import {defaultColor} from "../../reducers/palette";
 import {ControlProps, useValue} from "./helpers";
+import {PaletteIdGenerator} from "../../idGenerators";
 
 
 const blk = bem('palette-picker');
@@ -91,7 +92,7 @@ const PalettePickerControl = (props: ControlProps<number>) => {
     }, [dispatch]);
 
     const handleAddColor = useCallback(() => {
-        dispatch(addColor(nextId(), defaultColor));
+        dispatch(addColor(PaletteIdGenerator.getNextId(), defaultColor));
     }, [dispatch]);
 
     useEffect(() => {

@@ -1,9 +1,10 @@
 import Tool from "./Tool";
-import {nextShapeId, Point, SvgPolygon, SvgShapeType} from "../models/svg";
+import {Point, SvgPolygon, SvgShapeType} from "../models/svg";
 import {Dispatch} from "redux";
 import {addShape} from "../actions/editor";
 import React from "react";
 import SvgShapeRenderer from "../components/SvgShapeRenderer";
+import {ShapeIdGenerator} from "../idGenerators";
 
 export type PolygonState = SvgPolygon;
 
@@ -27,7 +28,7 @@ export default class Polygon extends Tool<PolygonState> {
     onFinish(state: PolygonState, dispatch: Dispatch): PolygonState {
         const points = [...state.points];
         points.pop();
-        const shape = {...state, points, id: nextShapeId()} as SvgPolygon;
+        const shape = {...state, points, id: ShapeIdGenerator.getNextId()} as SvgPolygon;
         dispatch(addShape(shape));
 
         return this.getInitialState();

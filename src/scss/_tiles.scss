@@ -49,6 +49,8 @@
     &__actions {
         display: none;
         position: absolute;
+        flex-wrap: wrap;
+        justify-content: stretch;
         left: 0;
         right: 0;
         bottom: -0.5px;
@@ -66,7 +68,7 @@
         background-color: $light;
         border-radius: 0;
 
-        &--edit:hover {
+        &:hover {
             background-color: $grey-light;
         }
 

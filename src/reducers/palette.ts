@@ -1,4 +1,5 @@
-import {PaletteActions} from "../actions/palette";
+import {PALETTE_ADD_COLOR, PALETTE_REMOVE_COLOR, PALETTE_UPDATE_COLOR, PaletteActions} from "../actions/palette";
+import {GlobalActions, IMPORT_PROJECT} from "../actions";
 
 export type Color = string;
 
@@ -12,20 +13,17 @@ const initialState: PaletteState = {
     0: defaultColor
 }
 
-export const nextId = (() => {
-    let lastId = 0;
-    return () => ++lastId;
-})();
-
-export function palette(state = initialState, action: PaletteActions): PaletteState {
+export function palette(state = initialState, action: PaletteActions | GlobalActions): PaletteState {
     switch (action.type) {
-        case "PALETTE_ADD_COLOR":
+        case PALETTE_ADD_COLOR:
             return {...state, [action.id]: action.color};
-        case "PALETTE_REMOVE_COLOR":
+        case PALETTE_REMOVE_COLOR:
             const {[action.id]: toRemove, ...newState} = state;
             return newState;
-        case "PALETTE_UPDATE_COLOR":
+        case PALETTE_UPDATE_COLOR:
             return {...state, [action.id]: action.color};
+        case IMPORT_PROJECT:
+            return JSON.parse(JSON.stringify(action.data.palette));
         default:
             return state;
     }

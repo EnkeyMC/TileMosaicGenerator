@@ -5,7 +5,7 @@ export interface PropertyDefinition<T> {
     label: string;
     type: PropertyType;
     required?: boolean;
-    validators?: Validator<T>;
+    validators?: Validator<T>[];
 }
 
 export type PropertyDefinitions = {[key: string]: PropertyDefinition<any>};

@@ -1,33 +1,58 @@
 import TileSvg from "./TileSvg";
-import React from "react";
+import React, {useMemo} from "react";
 import Tile from "../models/Tile";
+import {getTileSelectorByName} from "../generators";
 
 interface Props {
     rows: number;
     cols: number;
     tiles: Tile[];
+    tileSelector: string;
+    tileSelectorProperties: any;
 }
 
 const MosaicRenderer = (props: Props) => {
     const tilesLen = props.tiles.length;
 
-    const rowArray = Array(props.rows).fill(0);
-    const colArray = Array(props.cols).fill(0);
+    const rowArray = useMemo(() => Array(props.rows).fill(0), [props.rows]);
+    const colArray = useMemo(() => Array(props.cols).fill(0), [props.cols]);
+
+    const tileSelector = getTileSelectorByName(props.tileSelector);
+
+    const tileMatrix = useMemo(() => {
+        return rowArray.map((_, row) => (
+            colArray.map((_, col) => {
+                const idx = row * props.cols + col;
+                const selectedTile = tileSelector.selectTile(idx, row, col, props.tileSelectorProperties);
+                const tile = props.tiles[Math.round(selectedTile) % tilesLen];
+                return tile?.id;
+            })
+        ))
+    }, [rowArray, colArray, tileSelector, tilesLen, props.cols, props.tiles, props.tileSelectorProperties]);
+
+    const tileDefinitions = useMemo(() => (
+        props.tiles.map(tile => (
+            <g key={tile.id} id={`tile-${tile.id}`}>
+                <TileSvg key={tile.id} tile={tile} />
+            </g>
+        ))
+    ), [props.tiles]);
 
     return (
-        <svg preserveAspectRatio="xMidYMid meet" viewBox={`0 0 ${props.cols*100} ${props.rows*100}`} xmlns="http://www.w3.org/2000/svg">
+        <svg
+            shapeRendering="crispEdges"
+            version="1.1"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox={`0 0 ${props.cols*100} ${props.rows*100}`}
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
             <defs>
-                {props.tiles.map(tile => (
-                    <g key={tile.id} id={`tile-${tile.id}`}>
-                        <TileSvg key={tile.id} tile={tile} />
-                    </g>
-                ))}
+                {tileDefinitions}
             </defs>
-            {rowArray.map((_, row) => (
-                colArray.map((_, col) => {
-                    const idx = row * props.cols + col;
-                    const tile = props.tiles[(idx) % tilesLen];
-                    return <use key={idx} href={`#tile-${tile.id}`} x={col * 100}
+            {tileMatrix.map((column, row) => (
+                column.map((tileId, col) => {
+                    return <use key={row * props.cols + col} xlinkHref={`#tile-${tileId}`} x={col * 100}
                                 y={row * 100}/>
                 })
             ))}

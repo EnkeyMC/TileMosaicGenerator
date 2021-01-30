@@ -6,6 +6,7 @@ import PointControl from "./controls/PointControl";
 import PalettePickerControl from "./controls/PalettePickerControl";
 import {PropertyDefinition, PropertyDefinitions} from "../properties/PropertyDefinition";
 import {Validator} from "../properties/Validator";
+import Field from "./controls/Field";
 
 const propertyControlMap = {
     [PropertyType.INTEGER]: IntegerControl,
@@ -22,30 +23,21 @@ interface PropertyInputProps<T> {
 }
 
 function PropertyInput<T>(props: PropertyInputProps<T>) {
-    const [error, setError] = useState<string>();
-
-    const changeHandler = useCallback((value: T | null) => {
-        for (const validator of (props.property.validators ?? []) as Validator<T>[]) {
-            const err = validator(value);
-            if (err) {
-                setError(err);
-                return;
-            }
-        }
-        setError(undefined);
-
-        props.onChange(props.propName, value);
-    }, [props.propName, props.onChange, props.property, props.property.validators]);
-
     const Control = propertyControlMap[props.property.type];
 
+    const handleChange = useCallback(value => {
+        props.onChange(props.propName, value);
+    }, [props.onChange, props.propName]);
+
     return (
-        <div className="field">
-            <label className="label">
-                {props.property.label}
-            </label>
-            <Control value={props.value as any} error={error} onChange={changeHandler as any} required={props.property.required} />
-        </div>
+        <Field
+            control={Control}
+            label={props.property.label}
+            value={props.value as any}
+            onChange={handleChange as any}
+            required={props.property.required}
+            validators={props.property.validators}
+        />
     )
 }
 

@@ -14,11 +14,6 @@ export interface Point {
     y: number;
 }
 
-export const nextShapeId = (() => {
-    let lastId = 0;
-    return () => ++lastId;
-})()
-
 export interface SvgShape {
     type: SvgShapeType;
     id: number;

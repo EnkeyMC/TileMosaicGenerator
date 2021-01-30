@@ -5,8 +5,8 @@ import {selectTool} from "../actions/editor";
 import {Tools} from "../editor-tools";
 import {elementsSelector, toolSelector} from "../selectors/editor";
 import {setTile} from "../actions/tiles";
-import {nextTileId} from "../reducers/tiles";
 import {useHistory, useParams} from "react-router-dom";
+import {TileIdGenerator} from "../idGenerators";
 
 const blk = bem('svg-editor');
 
@@ -21,7 +21,7 @@ const SvgToolbar = () => {
 
     const handleSave = useCallback(() => {
         dispatch(setTile({
-            id: id !== null ? id : nextTileId(),
+            id: id !== null ? id : TileIdGenerator.getNextId(),
             elements
         }));
         history.push('/tiles');

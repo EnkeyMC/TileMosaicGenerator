@@ -5,6 +5,7 @@ export interface ControlProps<T> {
     value?: T | null;
     required?: boolean;
     error?: string;
+    [key: string]: any;
 }
 
 export function useValue<T>(props: ControlProps<T>): [T | null | undefined, Dispatch<SetStateAction<T | null | undefined>>] {
@@ -41,7 +42,6 @@ export function useControlLogic<T extends HasToString>(props: ControlProps<T>, v
             return;
         }
 
-        console.log(val);
         if (!validator(val))
             return;
 

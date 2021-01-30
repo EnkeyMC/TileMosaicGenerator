@@ -1,5 +1,6 @@
 import {PropertyType} from "./PropertyType";
 import {Validator} from "./Validator";
+import {PropertyDefinitions} from "./PropertyDefinition";
 
 export function Property<T> (type: PropertyType, label: string, required?: boolean, validators?: Validator<T | null>[]) {
     return (target: any, key: string) => {
@@ -14,4 +15,8 @@ export function Property<T> (type: PropertyType, label: string, required?: boole
             validators
         }
     }
+}
+
+export function getPropertyDefinitions(obj: any): PropertyDefinitions {
+    return obj.__propertyDefinitions ?? {};
 }
