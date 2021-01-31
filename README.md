@@ -34,7 +34,7 @@ Hovering on a tile shows action bar where you can duplicate, rotate, delete or e
 
 This page opens when you create a new tile or edit an existing one. On the left side of the editor is a panel showing all elements in the tile. You can reorder these tiles using drag & drop to control the rendering order of the elements. Clicking the icon with trashcan deletes the element and by clicking anywhere else on the item selects it.
 
-In the middle is the tile canvas which can be manipulated based on the selected tool from the toolbar above. Selected elements are rendered with blue color. There is also a grid which helps with alignment of the elements. On the right side is a properties editor for the selected element. Each type of element has a different set of properties you can edit.
+In the middle is the tile canvas which can be manipulated based on the selected tool from the toolbar above. When you select one of the tools that creates shapes (Line, Polygon, ...) you then create the shape by left clicking on the grid. In case of Polyline or Polygon you **end adding points by right clicking** or in case of Polygon by clicking on the start point. Selected elements are rendered with blue color. There is also a grid which helps with alignment of the elements. On the right side is a properties editor for the selected element. Each type of element has a different set of properties you can edit.
 
 In the future I am planning on adding support for editing existing elements by dragging and dropping each point defining a shape and also adding more shapes to create (mainly SVG path element). I also want to add Undo/Redo functionality.
 
