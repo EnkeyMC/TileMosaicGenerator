@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# Tile Mosaic Generator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an app created by Martin Omacht as a project for VIN course at Brno University of Technology in 2021.
 
-## Available Scripts
+The app is hosted on GitHub Pages [here](https://enkeymc.github.io/TileMosaicGenerator/) and should be supported by all modern browsers although it is not optimized form mobile experience.
 
-In the project directory, you can run:
+It is made for generating mosaic patterns from tiles based on given function with parameters. Right now only linear, geometric and fibonacci functions are available, but I plan to add more in the future. I also plan to add more ways to traverse the tile matrix (right now it is always from left to right and top  to bottom).
 
-### `npm start`
+Tile Mosaic Generator comes with built-in tile editor which allows you to create tiles in SVG format. The generated mosaic is also exported in SVG format to avoid resolution limitation.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The SVG elements in tiles can be colored using customizable color palette which allows you to quickly change color of all tiles using the same color.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Apart from exporting the mosaic in SVG, the app allows you to export and import the project which saves/loads the tile set, generator settings and color palette. The project file also contains version number to allow backwards compatibility.
 
-### `npm test`
+There are lots of features currently missing, but I plan on adding them in the future.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Generator 
 
-### `npm run build`
+The Generator page is used for generating the mosaic from tile set. On the left side is panel with settings. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Export mosaic** button exports the currently generated mosaic to SVG file. 
+- **Rows** and **Columns** fields set the dimensions of the generated mosaic.
+- **Tile selector** field allows you to select a function which selects a tile based on position, index or internal state. Under this field is a short description of the selected function (usually the formula) and underneath that are properties of the function that you can edit. The result of the function is always rounded and transformed using module operator to not overflow the tile set length.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Tiles 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+On the Tiles page you can manage your tile set. Clicking the empty tile with a plus sign opens tile editor where you can create a new tile. **Reorder** opens page where you can reorder your tile set using drag and drop (this is on a separate page, because I could not find a good grid drag and drop library).
 
-### `npm run eject`
+Hovering on a tile shows action bar where you can duplicate, rotate, delete or edit the tile.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Tile editor
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This page opens when you create a new tile or edit an existing one. On the left side of the editor is a panel showing all elements in the tile. You can reorder these tiles using drag & drop to control the rendering order of the elements. Clicking the icon with trashcan deletes the element and by clicking anywhere else on the item selects it.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+In the middle is the tile canvas which can be manipulated based on the selected tool from the toolbar above. Selected elements are rendered with blue color. There is also a grid which helps with alignment of the elements. On the right side is a properties editor for the selected element. Each type of element has a different set of properties you can edit.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+In the future I am planning on adding support for editing existing elements by dragging and dropping each point defining a shape and also adding more shapes to create (mainly SVG path element). I also want to add Undo/Redo functionality.
 
-## Learn More
+## Color palette
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Instead of choosing a concrete color for every element of every tile, you choose a color from a color palette. This color palette is customizable. You can add a new color, change or delete an existing one. You cannot delete the default color #000, but you can edit it. **Be careful when deleting a color!** All elements using this color will not be visible, and you have to choose a new color for every single one. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This color palette system allows you to quickly choose already used color and tweak any color at later time.

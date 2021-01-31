@@ -31,9 +31,27 @@ const Navbar = () => {
                     <NavLink to="/tiles" className="navbar-item" activeClassName="is-active">
                         Tiles
                     </NavLink>
+                </div>
+                <div className="navbar-end">
 
-                    <a href="#" onClick={handleExport} className="navbar-item">Export project</a>
-                    <NavLink to="/import" className="navbar-item" activeClassName="is-active">Import project</NavLink>
+                    <a href="#" onClick={handleExport} className="navbar-item ml-3">
+                        <span className="icon mr-1">
+                            <i className="fas fa-file-export" />
+                        </span>
+                        Export project
+                    </a>
+                    <NavLink to="/import" className="navbar-item" activeClassName="is-active">
+                        <span className="icon mr-1">
+                            <i className="fas fa-file-import" />
+                        </span>
+                        Import project
+                    </NavLink>
+                    <NavLink to="/help" className="navbar-item" activeClassName="is-active">
+                        <span className="icon mr-1">
+                            <i className="fas fa-question-circle" />
+                        </span>
+                        Help
+                    </NavLink>
                 </div>
             </div>
         </nav>

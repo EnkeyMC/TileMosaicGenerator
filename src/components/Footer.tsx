@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="content has-text-centered">
                 <p className="has-text-grey is-size-7">
                     <i>Tile Mosaic Generator</i> is created by Martin Omacht as a project for VIN course
-                    at Brno University of Technology in 2020. (Version: {VERSION.MAJOR}.{VERSION.MINOR})
+                    at Brno University of Technology in 2021. (Version: {VERSION.MAJOR}.{VERSION.MINOR})
                 </p>
             </div>
         </footer>

@@ -5,6 +5,7 @@ import Generator from "./pages/Generator";
 import Tiles from "./pages/Tiles";
 import Reorder from "./pages/Tiles/Reorder";
 import Import from "./pages/Import";
+import Help from "./pages/Help";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
         </Route>
         <Route path="/import">
           <Import />
+        </Route>
+        <Route path="/help">
+            <Help />
         </Route>
         <Route path="/">
             <Generator />
