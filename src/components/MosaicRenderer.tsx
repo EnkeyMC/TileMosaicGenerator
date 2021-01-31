@@ -9,6 +9,7 @@ interface Props {
     tiles: Tile[];
     tileSelector: string;
     tileSelectorProperties: any;
+    backgroundColor?: string;
 }
 
 const MosaicRenderer = (props: Props) => {
@@ -50,6 +51,7 @@ const MosaicRenderer = (props: Props) => {
             <defs>
                 {tileDefinitions}
             </defs>
+            {props.backgroundColor && <rect x={0} y={0} width={props.cols * 100} height={props.rows * 100} fill={props.backgroundColor} />}
             {tileMatrix.map((column, row) => (
                 column.map((tileId, col) => {
                     return <use key={row * props.cols + col} xlinkHref={`#tile-${tileId}`} x={col * 100}

@@ -22,6 +22,8 @@ The Generator page is used for generating the mosaic from tile set. On the left 
 - **Rows** and **Columns** fields set the dimensions of the generated mosaic.
 - **Tile selector** field allows you to select a function which selects a tile based on position, index or internal state. Under this field is a short description of the selected function (usually the formula) and underneath that are properties of the function that you can edit. The result of the function is always rounded and transformed using module operator to not overflow the tile set length.
 
+On the right side is a panel where you can select a background color and reorder tile set.
+
 ## Tiles 
 
 On the Tiles page you can manage your tile set. Clicking the empty tile with a plus sign opens tile editor where you can create a new tile. **Reorder** opens page where you can reorder your tile set using drag and drop (this is on a separate page, because I could not find a good grid drag and drop library).

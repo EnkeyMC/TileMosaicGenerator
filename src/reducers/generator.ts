@@ -1,4 +1,5 @@
 import {
+    GENERATOR_SET_BACKGROUND,
     GENERATOR_SET_COLS,
     GENERATOR_SET_ROWS,
     GENERATOR_SET_SELECTOR,
@@ -15,13 +16,15 @@ export interface GeneratorState {
     cols: number;
     tileSelector: string;
     tileSelectorProperties: any;
+    backgroundColorId: number | null;
 }
 
 export const initialState: GeneratorState = {
     rows: 17,
     cols: 17,
     tileSelector: varToString({LinearSelector}),
-    tileSelectorProperties: LinearSelector.defaultProperties
+    tileSelectorProperties: LinearSelector.defaultProperties,
+    backgroundColorId: null,
 }
 
 export function generator(state: GeneratorState = initialState, action: GeneratorActions | GlobalActions): GeneratorState {
@@ -45,6 +48,8 @@ export function generator(state: GeneratorState = initialState, action: Generato
             }
         case IMPORT_PROJECT:
             return JSON.parse(JSON.stringify(action.data.generator));
+        case GENERATOR_SET_BACKGROUND:
+            return {...state, backgroundColorId: action.backgroundColorId};
         default:
             return state;
     }

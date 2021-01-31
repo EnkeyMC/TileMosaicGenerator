@@ -27,3 +27,13 @@
         padding: 20px;
     }
 }
+
+.tiles-sidebar {
+    height: 100%;
+    width: 300px;
+    border-left: 2px $light solid;
+
+    &__content {
+        padding: 20px;
+    }
+}

@@ -4,6 +4,7 @@ export const GENERATOR_SET_ROWS = 'GENERATOR_SET_ROWS';
 export const GENERATOR_SET_COLS = 'GENERATOR_SET_COLS';
 export const GENERATOR_SET_SELECTOR = 'GENERATOR_SET_SELECTOR';
 export const GENERATOR_SET_SELECTOR_PROPERTY = 'GENERATOR_SET_SELECTOR_PROPERTY';
+export const GENERATOR_SET_BACKGROUND = 'GENERATOR_SET_BACKGROUND';
 
 export interface SetRowsAction extends Action<typeof GENERATOR_SET_ROWS> {
     rows: number;
@@ -51,4 +52,15 @@ export function setSelectorProperty(prop: string, value: any): SetSelectorProper
     }
 }
 
-export type GeneratorActions = SetRowsAction | SetColsAction | SetSelectorAction | SetSelectorPropertyAction;
+export interface SetBackgroundAction extends Action<typeof GENERATOR_SET_BACKGROUND> {
+    backgroundColorId: number | null;
+}
+
+export function setBackground(backgroundColorId: number | null): SetBackgroundAction {
+    return {
+        type: GENERATOR_SET_BACKGROUND,
+        backgroundColorId
+    }
+}
+
+export type GeneratorActions = SetRowsAction | SetColsAction | SetSelectorAction | SetSelectorPropertyAction | SetBackgroundAction;
