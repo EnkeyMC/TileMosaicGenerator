@@ -6,35 +6,50 @@ import Tiles from "./pages/Tiles";
 import Reorder from "./pages/Tiles/Reorder";
 import Import from "./pages/Import";
 import Help from "./pages/Help";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
-  return (
-    <HashRouter>
-      <Switch>
-        <Route path="/tiles/new">
-          <TileEditor />
-        </Route>
-        <Route path="/tiles/reorder">
-          <Reorder />
-        </Route>
-        <Route path="/tiles/:id">
-            <TileEditor />
-        </Route>
-        <Route path="/tiles">
-            <Tiles />
-        </Route>
-        <Route path="/import">
-          <Import />
-        </Route>
-        <Route path="/help">
-            <Help />
-        </Route>
-        <Route path="/">
-            <Generator />
-        </Route>
-      </Switch>
-    </HashRouter>
-  );
+    return (
+        <HashRouter>
+            <Switch>
+                <Route path="/tiles/new">
+                    <ErrorBoundary>
+                        <TileEditor />
+                    </ErrorBoundary>
+                </Route>
+                <Route path="/tiles/reorder">
+                    <ErrorBoundary>
+                        <Reorder />
+                    </ErrorBoundary>
+                </Route>
+                <Route path="/tiles/:id">
+                    <ErrorBoundary>
+                        <TileEditor />
+                    </ErrorBoundary>
+                </Route>
+                <Route path="/tiles">
+                    <ErrorBoundary>
+                        <Tiles />
+                    </ErrorBoundary>
+                </Route>
+                <Route path="/import">
+                    <ErrorBoundary>
+                        <Import />
+                    </ErrorBoundary>
+                </Route>
+                <Route path="/help">
+                    <ErrorBoundary>
+                        <Help />
+                    </ErrorBoundary>
+                </Route>
+                <Route path="/">
+                    <ErrorBoundary>
+                        <Generator />
+                    </ErrorBoundary>
+                </Route>
+            </Switch>
+        </HashRouter>
+    );
 }
 
 export default App;

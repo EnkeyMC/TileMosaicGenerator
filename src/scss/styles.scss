@@ -29,3 +29,14 @@ html {
   align-items: center;
   justify-content: center;
 }
+
+.error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__content {
+    padding: 30px;
+    text-align: center;
+  }
+}

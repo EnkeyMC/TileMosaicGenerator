@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import ReactMarkdown from "react-markdown";
 import Scrollable from "../../components/Scrollable";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 const Help = () => {
     const [readme, setReadme] = useState<string>('');
@@ -25,9 +26,11 @@ const Help = () => {
         <FullscreenPageLayout header={<Navbar />} footer={<Footer />}>
             <Scrollable>
                 <div className="container pt-6 pb-6">
-                    <ReactMarkdown className="content">
-                        {readme}
-                    </ReactMarkdown>
+                    <ErrorBoundary>
+                        <ReactMarkdown className="content">
+                            {readme}
+                        </ReactMarkdown>
+                    </ErrorBoundary>
                 </div>
             </Scrollable>
         </FullscreenPageLayout>

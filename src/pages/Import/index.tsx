@@ -4,7 +4,6 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import bem from "bem-ts";
 import {useDispatch} from "react-redux";
-import {importProject} from "../../actions";
 import { useHistory } from "react-router-dom";
 import {importProjectAndSetupIdGenerators} from "../../import";
 

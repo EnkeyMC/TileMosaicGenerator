@@ -1,5 +1,6 @@
 import React from "react";
 import bem from "bem-ts";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 interface Props {
     horizontal?: boolean;
@@ -15,13 +16,19 @@ const PanelLayout = (props: Props) => {
     return (
         <div className={blk({horizontal, vertical: !horizontal})}>
             <div className={blk('side')}>
-                { props.left }
+                <ErrorBoundary>
+                    { props.left }
+                </ErrorBoundary>
             </div>
             <div className={blk('content')}>
-                { props.children }
+                <ErrorBoundary>
+                    { props.children }
+                </ErrorBoundary>
             </div>
             <div className={blk('side')}>
-                { props.right }
+                <ErrorBoundary>
+                    { props.right }
+                </ErrorBoundary>
             </div>
         </div>
     )

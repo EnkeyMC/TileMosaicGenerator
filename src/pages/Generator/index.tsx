@@ -7,6 +7,7 @@ import bem from "bem-ts";
 import GeneratorSettings from "./GeneratorSettings";
 import GenerateMosaic from "../../components/GenerateMosaic";
 import TilesSidebar from "./TilesSidebar";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 const blk = bem('generator');
 
@@ -16,7 +17,9 @@ const Generator = () => {
             <PanelLayout horizontal left={<GeneratorSettings />} right={<TilesSidebar />}>
                 <div className={blk()}>
                     <div className={blk('wrap')}>
-                        <GenerateMosaic />
+                        <ErrorBoundary>
+                            <GenerateMosaic />
+                        </ErrorBoundary>
                     </div>
                 </div>
             </PanelLayout>

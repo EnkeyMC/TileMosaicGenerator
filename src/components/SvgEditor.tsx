@@ -5,6 +5,7 @@ import SvgToolbar from "./SvgToolbar";
 import SvgPropertyEditor from "./SvgPropertyEditor";
 import SvgEditorCanvas from "./SvgEditorCanvas";
 import SvgElementViewer from "./SvgElementViewer";
+import ErrorBoundary from "./ErrorBoundary";
 
 const blk = bem('svg-editor');
 
@@ -15,7 +16,9 @@ const SvgEditor = () => {
                 <PanelLayout left={<SvgToolbar />}>
                     <div className={blk('wrap')}>
                         <div className={blk('content')}>
-                            <SvgEditorCanvas />
+                            <ErrorBoundary>
+                                <SvgEditorCanvas />
+                            </ErrorBoundary>
                         </div>
                     </div>
                 </PanelLayout>

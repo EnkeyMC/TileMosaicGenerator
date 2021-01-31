@@ -6,6 +6,7 @@ import bem from "bem-ts";
 import Scrollable from "../../components/Scrollable";
 import {NavLink} from "react-router-dom";
 import ReorderableTileList from "../../components/ReorderableTileList";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 const blk = bem('reorder');
 
@@ -21,7 +22,9 @@ const Reorder = () => {
                         </p>
                     </div>
                     <p className="subtitle">Reorder tiles by drag & drop</p>
-                    <ReorderableTileList />
+                    <ErrorBoundary>
+                        <ReorderableTileList />
+                    </ErrorBoundary>
                 </div>
             </Scrollable>
         </FullscreenPageLayout>
