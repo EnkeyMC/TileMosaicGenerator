@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/TileMosaicGenerator/static/css/main.6fb4c9aa.chunk.css",
-    "main.js": "/TileMosaicGenerator/static/js/main.1eae17c9.chunk.js",
-    "main.js.map": "/TileMosaicGenerator/static/js/main.1eae17c9.chunk.js.map",
+    "main.js": "/TileMosaicGenerator/static/js/main.68a48733.chunk.js",
+    "main.js.map": "/TileMosaicGenerator/static/js/main.68a48733.chunk.js.map",
     "runtime-main.js": "/TileMosaicGenerator/static/js/runtime-main.2a842219.js",
     "runtime-main.js.map": "/TileMosaicGenerator/static/js/runtime-main.2a842219.js.map",
     "static/js/2.2b5c54d8.chunk.js": "/TileMosaicGenerator/static/js/2.2b5c54d8.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.2a842219.js",
     "static/js/2.2b5c54d8.chunk.js",
     "static/css/main.6fb4c9aa.chunk.css",
-    "static/js/main.1eae17c9.chunk.js"
+    "static/js/main.68a48733.chunk.js"
   ]
 }
