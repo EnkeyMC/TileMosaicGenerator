@@ -10,7 +10,7 @@ Tile Mosaic Generator comes with built-in tile editor which allows you to create
 
 The SVG elements in tiles can be colored using customizable color palette which allows you to quickly change color of all tiles using the same color.
 
-Apart from exporting the mosaic in SVG, the app allows you to export and import the project which saves/loads the tile set, generator settings and color palette. The project file also contains version number to allow backwards compatibility.
+Apart from exporting the mosaic in SVG, the app allows you to export and import the project which saves/loads the tile set, generator settings and color palette. The project file also contains version number to allow backwards compatibility. The project is also saved upon page unload to local storage so you don't loose progress when you refresh the page.
 
 This is more of a foundation that can be built upon as I have tried to make it as extensible as possible. There are lots of features currently missing, but I plan on adding them in the future.
 
