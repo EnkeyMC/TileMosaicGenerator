@@ -21,7 +21,7 @@ const GenerateMosaic = () => {
     const backgroundColor = useSelector(colorSelector(backgroundColorId));
 
     return (<>
-        {tiles.length && <MosaicRenderer
+        {tiles.length > 0 && <MosaicRenderer
             rows={rows} cols={cols}
             tiles={tiles} tileSelector={tileSelectorKey}
             tileSelectorProperties={tileSelectorProperties}
