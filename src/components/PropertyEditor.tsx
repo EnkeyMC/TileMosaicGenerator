@@ -1,11 +1,10 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback} from "react";
 import {PropertyType} from "../properties/PropertyType";
 import IntegerControl from "./controls/IntegerControl";
 import FloatControl from "./controls/FloatControl";
 import PointControl from "./controls/PointControl";
 import PalettePickerControl from "./controls/PalettePickerControl";
 import {PropertyDefinition, PropertyDefinitions} from "../properties/PropertyDefinition";
-import {Validator} from "../properties/Validator";
 import Field from "./controls/Field";
 
 const propertyControlMap = {

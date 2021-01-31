@@ -33,7 +33,8 @@ export default class ErrorBoundary extends React.Component<Props, State> {
                 <div className={blk()}>
                     <div className={blk('content')}>
                         <h2 className="title is-3 has-text-danger">Error occurred</h2>
-                        <p>Error occurred during render of this component.</p>
+                        <p className="mb-4">Error occurred during render of this component.</p>
+                        <button className="button is-ghost" onClick={() => this.setState({hasError: false})}>Try again</button>
                     </div>
                 </div>
             )

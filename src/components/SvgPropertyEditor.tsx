@@ -21,7 +21,7 @@ const SvgPropertyEditor = () => {
     }, [selectedIdx, dispatch]);
 
     const propAccessor = useCallback(prop => {
-        return shape[prop];
+        return shape && shape[prop];
     }, [shape]);
 
     return (
