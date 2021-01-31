@@ -34,11 +34,13 @@ const PickerItem = React.forwardRef((props: PickerItemProps, ref: any) => {
     const [editOpen, setEditOpen] = useState(false);
     const dispatch = useDispatch();
 
-    const openEdit = useCallback(() => {
+    const openEdit = useCallback((e) => {
+        e.stopPropagation();
         setEditOpen(true);
     }, [setEditOpen]);
 
-    const closeEdit = useCallback(() => {
+    const closeEdit = useCallback((e) => {
+        e.stopPropagation();
         setEditOpen(false);
     }, [setEditOpen]);
 
