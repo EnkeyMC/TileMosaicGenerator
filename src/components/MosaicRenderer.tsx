@@ -2,6 +2,7 @@ import TileSvg from "./TileSvg";
 import React, {useMemo} from "react";
 import Tile from "../models/Tile";
 import {getTileSelectorByName} from "../generators";
+import Big from "big.js";
 
 interface Props {
     rows: number;
@@ -25,8 +26,13 @@ const MosaicRenderer = (props: Props) => {
             colArray.map((_, col) => {
                 const idx = row * props.cols + col;
                 const selectedTile = tileSelector.selectTile(idx, row, col, props.tileSelectorProperties);
-                const tile = props.tiles[Math.round(selectedTile) % tilesLen];
-                return tile?.id;
+                if (selectedTile instanceof Big) {
+                    const tile = props.tiles[Math.floor(selectedTile.mod(tilesLen).toNumber())];
+                    return tile?.id;
+                } else {
+                    const tile = props.tiles[Math.floor(selectedTile) % tilesLen];
+                    return tile?.id;
+                }
             })
         ))
     }, [rowArray, colArray, tileSelector, tilesLen, props.cols, props.tiles, props.tileSelectorProperties]);
@@ -41,7 +47,6 @@ const MosaicRenderer = (props: Props) => {
 
     return (
         <svg
-            shapeRendering="crispEdges"
             version="1.1"
             preserveAspectRatio="xMidYMid meet"
             viewBox={`0 0 ${props.cols*100} ${props.rows*100}`}

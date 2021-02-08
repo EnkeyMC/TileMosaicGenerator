@@ -35,12 +35,13 @@ export function useControlLogic<T extends HasToString>(props: ControlProps<T>, v
                 setError('This field is required');
             } else {
                 setError(undefined);
+                props.onChange(val);
             }
 
             setValue(val);
-            props.onChange(val);
             return;
         }
+        setError(undefined);
 
         if (!validator(val))
             return;
