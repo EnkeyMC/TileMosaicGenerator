@@ -11,7 +11,7 @@ import {
 import React from "react";
 import {colorSelector} from "../selectors/palette";
 
-const GenerateMosaic = () => {
+const GenerateMosaic = ({ async }: { async?: boolean }) => {
     const tiles = useSelector(tilesSelector);
     const cols = useSelector(colsSelector);
     const rows = useSelector(rowsSelector);
@@ -22,6 +22,7 @@ const GenerateMosaic = () => {
 
     return (<>
         {tiles.length > 0 && <MosaicRenderer
+            async={async}
             rows={rows} cols={cols}
             tiles={tiles} tileSelector={tileSelectorKey}
             tileSelectorProperties={tileSelectorProperties}

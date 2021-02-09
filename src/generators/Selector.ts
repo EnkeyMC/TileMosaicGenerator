@@ -1,13 +1,18 @@
-import Big from "big.js";
+export type SelectorResult = number;
 
-export type SelectorResult = Big | number;
+export interface TraversalContext {
+    idx: number;
+    x: number;
+    y: number;
+    tileCount: number;
+}
 
 export default interface Selector<T, S> {
     label: string;
     description?: string;
     defaultProperties: T;
     state: S,
-    selectTile(this: Selector<T, S>, idx: number, x: number, y: number, properties: T): SelectorResult;
+    selectTile(this: Selector<T, S>, context: TraversalContext, properties: T): SelectorResult;
 }
 
 export function bindSelector<T, S>(selector: Selector<T, S>): Selector<T, S> {

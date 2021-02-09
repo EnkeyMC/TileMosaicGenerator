@@ -1,8 +1,7 @@
 import TileSvg from "./TileSvg";
-import React, {useMemo} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Tile from "../models/Tile";
 import {getTileSelectorByName} from "../generators";
-import Big from "big.js";
 
 interface Props {
     rows: number;
@@ -11,9 +10,11 @@ interface Props {
     tileSelector: string;
     tileSelectorProperties: any;
     backgroundColor?: string;
+    async?: boolean;
 }
 
 const MosaicRenderer = (props: Props) => {
+
     const tilesLen = props.tiles.length;
 
     const rowArray = useMemo(() => Array(props.rows).fill(0), [props.rows]);
@@ -21,21 +22,18 @@ const MosaicRenderer = (props: Props) => {
 
     const tileSelector = getTileSelectorByName(props.tileSelector);
 
-    const tileMatrix = useMemo(() => {
+    const generateMatrix = useCallback(() => {
         return rowArray.map((_, row) => (
             colArray.map((_, col) => {
                 const idx = row * props.cols + col;
-                const selectedTile = tileSelector.selectTile(idx, row, col, props.tileSelectorProperties);
-                if (selectedTile instanceof Big) {
-                    const tile = props.tiles[Math.floor(selectedTile.mod(tilesLen).toNumber())];
-                    return tile?.id;
-                } else {
-                    const tile = props.tiles[Math.floor(selectedTile) % tilesLen];
-                    return tile?.id;
-                }
+                const selectedTile = tileSelector.selectTile({idx, y: row, x: col, tileCount: tilesLen}, props.tileSelectorProperties);
+                const tile = props.tiles[selectedTile];
+                return tile?.id;
             })
         ))
     }, [rowArray, colArray, tileSelector, tilesLen, props.cols, props.tiles, props.tileSelectorProperties]);
+
+    const tileMatrix = useMemo(() => generateMatrix(), [generateMatrix]);
 
     const tileDefinitions = useMemo(() => (
         props.tiles.map(tile => (

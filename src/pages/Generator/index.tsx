@@ -18,7 +18,7 @@ const Generator = () => {
                 <div className={blk()}>
                     <div className={blk('wrap')}>
                         <ErrorBoundary>
-                            <GenerateMosaic />
+                            <GenerateMosaic async />
                         </ErrorBoundary>
                     </div>
                 </div>
